@@ -31,10 +31,10 @@ return [
     'driver' => 'mysqli', // 사용할 드라이버 선택: 'pdo' 또는 'mysqli'
 
     'database' => [
-        'hostname' => $_ENV['DB_HOST'] ?? 'localhost',
-        'username' => $_ENV['DB_USERNAME'] ?? 'test',
-        'password' => $_ENV['DB_PASSWORD'] ?? '',
-        'database' => $_ENV['DB_DATABASE'] ?? '',
+        'hostname' => $_ENV['DB_HOST'] ?? 'mariadb',
+        'username' => $_ENV['DB_USERNAME'] ?? 'root',
+        'password' => $_ENV['DB_PASSWORD'] ?? 're100korea1234',
+        'database' => $_ENV['DB_DATABASE'] ?? 'mysql',
         'charset'  => 'utf8mb4',
         'port'     => $_ENV['DB_PORT'] ?? 3306,
         'db_debug' => (defined('ENVIRONMENT') && ENVIRONMENT === 'development'),
