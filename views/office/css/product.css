@@ -1,0 +1,426 @@
+/* ==============================================
+* 주문 페이지 (order.css)
+* ============================================== */
+
+/* 페이지 컨테이너 */
+.order-page-container {
+  background-color: var(--white);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .order-page-container {
+    padding: 20px 16px;
+  }
+}
+
+/* 공통 섹션 스타일 */
+.order-section {
+  margin-bottom: 48px;
+}
+
+.order-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.section-title {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--text-primary);
+  font-weight: 700;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Form 스타일 */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 24px;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group.address-group {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.form-input {
+  width: 100%;
+  padding: 15px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1.6rem;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.input-with-button {
+  display: flex;
+  gap: 8px;
+}
+
+.input-with-button .form-input {
+  flex-grow: 1;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-group input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox-group label {
+  font-size: 1.5rem;
+}
+
+/* 주문 상품 목록 */
+.order-product-list {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.product-item + .product-item {
+  border-top: 1px solid #f0f0f0;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.product-details .product-name {
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.product-details .product-option {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.product-quantity,
+.product-price {
+  font-size: 1.6rem;
+  font-weight: 500;
+  width: 120px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .product-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .product-quantity,
+  .product-price {
+    width: auto;
+    text-align: left;
+    font-size: 1.5rem;
+  }
+
+  .product-price {
+    font-weight: 700;
+  }
+}
+
+/* 결제 정보 */
+.payment-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 48px;
+}
+
+@media (max-width: 1024px) {
+  .payment-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.summary-box {
+  background-color: var(--bg-light);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+}
+
+.summary-item:last-child {
+  margin-bottom: 0;
+}
+
+.summary-item dt {
+  color: var(--text-secondary);
+}
+
+.summary-item dd {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.summary-item.total {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border-color);
+  font-size: 1.8rem;
+}
+
+.summary-item.total .total-price {
+  font-size: 2.4rem;
+  color: var(--primary);
+}
+
+/* 결제 수단 */
+.method-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.method-btn {
+  padding: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--white);
+  font-size: 1.6rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.method-btn.--is-active,
+.method-btn:hover {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* 최종 결제 버튼 */
+.payment-actions {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-color);
+}
+
+.terms-agreement {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.terms-agreement label {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+}
+
+/* 버튼 유틸리티 (필요 시 공통 CSS로 이동) */
+.btn {
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn--primary {
+  background-color: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.btn--primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn--secondary {
+  background-color: var(--white);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.btn--secondary:hover {
+  border-color: var(--border-color-dark);
+}
+
+.btn--full {
+  width: 100%;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 1.8rem;
+}
+
+/* 버튼 완료 상태 스타일 */
+.btn--success {
+  background-color: #28a745;
+  /* 성공을 의미하는 녹색 */
+  color: var(--white);
+  border-color: #28a745;
+  cursor: default;
+}
+
+/* 입력창 비활성화 스타일 */
+.form-input:disabled {
+  background-color: #e9ecef;
+  /* 잠긴 상태를 의미하는 회색 */
+  color: #495057;
+  /* 클릭해서 다시 활성화할 수 있다는 것을 알려주기 위해 커서 모양 변경 */
+  cursor: pointer;
+}
+
+/* 도움말 텍스트 기본 스타일 */
+.help-text {
+  font-size: 1.4rem;
+  margin-top: 8px;
+  min-height: 20px;
+  /* 메시지가 없을 때도 높이를 유지하여 레이아웃이 흔들리지 않게 함 */
+}
+
+/* 성공 메시지 스타일 */
+.help-text.success {
+  color: #28a745;
+}
+
+/* 에러 메시지 스타일 */
+.help-text.error {
+  color: var(--danger);
+  /* layout.css에 정의된 변수 활용 */
+}
+
+.method-btn:disabled,
+.method-btn[disabled] {
+  background-color: var(--bg-light);
+  /* 연한 회색 배경 */
+  color: var(--text-secondary);
+  /* 연한 회색 텍스트 */
+  border-color: var(--border-color);
+  opacity: 0.7;
+  /* 살짝 투명하게 */
+  cursor: not-allowed;
+  /* '금지' 커서 모양 */
+}
+
+/* 비활성화된 버튼에 마우스를 올려도 효과가 없도록 처리 */
+.method-btn:disabled:hover,
+.method-btn[disabled]:hover {
+  background-color: var(--bg-light);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+#name[readonly],
+#mlm_id[readonly],
+#referrer_id[readonly],
+#sponsor_id[readonly] {
+  background-color: #f0f2f5; /* 약간의 배경색을 주어 비활성 느낌을 표현 */
+  color: #555; /* 텍스트 색상을 살짝 연하게 조정 */
+  font-weight: 600; /* 텍스트를 약간 굵게 하여 확정된 정보임을 강조 */
+  cursor: default; /* 마우스 커서를 기본 모양으로 변경 */
+  border-color: #e0e0e0; /* 테두리 색을 연하게 변경 */
+}
+
+/* 읽기 전용 필드에 포커스 되었을 때의 효과 제거 */
+#name[readonly]:focus,
+#mlm_id[readonly]:focus,
+#referrer_id[readonly]:focus,
+#sponsor_id[readonly]:focus {
+  border-color: #e0e0e0; /* 포커스 되어도 테두리 색이 변하지 않도록 설정 */
+}
+
+.form-input.--is-selected {
+  background-color: #f0f2f5; /* 약간의 배경색을 주어 비활성 느낌을 표현 */
+  color: #555; /* 텍스트 색상을 살짝 연하게 조정 */
+  font-weight: 600; /* 텍스트를 약간 굵게 하여 확정된 정보임을 강조 */
+  cursor: default; /* 마우스 커서를 기본 모양으로 변경 */
+  border-color: #e0e0e0; /* 테두리 색을 연하게 변경 */
+}
+
+.payment-notice {
+ padding: 30px 0;
+  font-size: 2rem;
+  color: #000; /* 기존 CSS 변수 활용 */
+  font-weight: 600;
+}
+
+
+.payment-notice-pri {
+  font-size: 2rem;
+  color: var(--primary); /* 기존 CSS 변수 활용 */
+  font-weight: 600;
+}
+
+.payment-notice p {
+  color: #000;
+  font-weight: 500;
+  margin-top: 8px;
+}

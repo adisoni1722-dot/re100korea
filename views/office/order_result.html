@@ -1,0 +1,250 @@
+<style>
+    /* ==============================================
+* 주문 결과 페이지 (order_result.css)
+* ============================================== */
+
+    /* 페이지 컨테이너 - order.css의 스타일 재활용 */
+    .result-page-container {
+        background-color: var(--white);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        margin: 40px auto;
+    }
+
+    /* 결과 헤더 */
+    .order-result-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed var(--border-color);
+    }
+
+    .result-title {
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .result-subtitle {
+        font-size: 1.6rem;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+    }
+
+    .order-number-box {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--primary-light);
+        border-radius: 8px;
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .order-number-box .order-id {
+        color: var(--primary-dark);
+        margin-left: 10px;
+    }
+
+    /* 정보 테이블 */
+    .info-table {
+        border-top: 2px solid var(--text-primary);
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 30px;
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 1.6rem;
+    }
+
+    .info-item:last-of-type {
+        border-bottom: none;
+    }
+
+    .info-item dt {
+        font-weight: 500;
+        color: var(--text-secondary);
+        width: 120px;
+    }
+
+    .info-item dd {
+        font-weight: 700;
+        color: var(--text-primary);
+        text-align: right;
+        flex-grow: 1;
+    }
+
+    .info-item .total-price {
+        color: var(--danger);
+        /* 최종 결제 금액 강조 */
+        font-size: 2.2rem;
+    }
+
+    /* 무통장 입금 추가 정보 */
+    .info-item.bank-info dd {
+        color: var(--primary);
+        font-weight: 700;
+    }
+
+    /* 액션 버튼 */
+    .result-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .result-actions .btn--lg {
+        padding: 15px 30px;
+        font-size: 1.7rem;
+        min-width: 200px;
+    }
+
+    @media (max-width: 768px) {
+        .result-page-container {
+            padding: 20px 16px;
+            margin: 20px auto;
+        }
+
+        .result-actions {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .result-actions .btn--lg {
+            width: 100%;
+        }
+    }
+</style>
+
+<? if(isset($success) && $success): ?>
+<div class="result-page-container">
+    <div class="order-result-header">
+        <h1 class="result-title font-h-lg">
+            <?=ORDER?>이 성공적으로 접수되었습니다!
+        </h1>
+        <p class="result-subtitle">
+            <?=ORDER?> 내역과 가입 정보를 확인해 주세요.
+        </p>
+        <div class="order-number-box">
+            <span class="font-c-lg">주문번호</span>
+            <strong class="order-id font-h-sm">
+                <?=$order['order_number']?>
+            </strong>
+        </div>
+    </div>
+    <section class="result-section">
+        <h2 class="section-title font-t-sm">
+            신청 및 접수 정보
+        </h2>
+        <div class="info-table">
+            <dl class="info-item">
+                <dt>주문자 이름</dt>
+                <dd>
+                    <?=$order['name']?>
+                </dd>
+            </dl>
+            <dl class="info-item">
+                <dt>연락처</dt>
+                <dd>
+                    <?=$order['phone']?>
+                </dd>
+            </dl>
+            <dl class="info-item">
+                <dt>
+                    메인
+                    <?=ACCOUNT_NAME?>
+                </dt>
+                <dd>
+                    <?=$order['mlm_id']?>
+                </dd>
+            </dl>
+            <dl class="info-item">
+                <dt>방문 수령지</dt>
+                <dd>
+                    <?=$order['pickup_location_name']?>
+                </dd>
+            </dl>
+        </div>
+    </section>
+
+    <section class="result-section">
+        <h2 class="section-title font-t-sm">상품 정보</h2>
+        <div class="info-table">
+            <dl class="info-item">
+                <dt>주문 상품</dt>
+                <dd>
+                    <?=$product['name']?> (1개)
+                </dd>
+            </dl>
+            <dl class="info-item">
+                <dt>총 결제 금액</dt>
+                <dd class="total-price font-h-sm">
+                    <?=number_format($order['final_price'],0)?>원
+                </dd>
+            </dl>
+            <dl class="info-item">
+                <dt>결제 수단</dt>
+                <dd>
+                    <?=$order['payment_method_name']?>
+                </dd>
+            </dl>
+
+            <dl class="info-item cash-notice">
+                <dt>결제 기한</dt>
+                <dd class="font-c-md">주문일로부터 7일 이내</dd>
+            </dl>
+        </div>
+    </section>
+
+    <div class="result-actions">
+    <a href="/office/order/list" class="btn-base btn-black font-b-sm btn--lg btn--block"><?=ORDER_LIST?> 확인</a>
+    </div>
+</div>
+
+<? else: ?>
+<div class="result-page-container fail-container">
+    <div class="order-result-header">
+        <h1 class="result-title font-b-lg">주문 생성에 실패했습니다.</h1>
+        <p class="result-subtitle">주문 접수 과정 중 오류가 발생했습니다. 아래 사유를 확인해 주세요.</p>
+    </div>
+
+    <section class="result-section">
+        <h2 class="section-title font-t-sm">실패 내역 상세</h2>
+        <div class="info-table">
+            <dl class="info-item">
+                <dt>발생 일시</dt>
+                <dd>
+                    <?=date('Y.m.d H:i:s')?>
+                </dd>
+            </dl>
+            <dl class="info-item">
+                <dt>실패 유형</dt>
+                <dd class="font-b-md">
+                    <?= htmlspecialchars($message) ?>
+                </dd>
+            </dl>
+        </div>
+    </section>
+
+    <section class="result-section">
+        <h2 class="section-title font-t-sm">문제 해결 도움말</h2>
+        <ul class="help-list">
+            <li>사용자 세션이 만료 되었거나 페이지가 종료 로그아웃후 재접수 신청 하세요</li>
+            <li>문제가 지속될 경우 고객센터로 문의하여 **주문 실패 시각**과 **실패 사유**를 알려주세요.</li>
+        </ul>
+    </section>
+
+    <div class="result-actions">
+        <a href="/office/product" class="btn btn--secondary btn--lg"><?=ORDER_LIST?> 돌아가기</a>
+        <a href="/helpdesk" class="btn btn--primary btn--lg">고객센터 문의</a>
+    </div>
+</div>
+<div class="gap"></div>
+<? endif; ?>
+
+<div class="gap"></div>

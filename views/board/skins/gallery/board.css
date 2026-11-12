@@ -1,0 +1,759 @@
+@charset "utf-8";
+
+/* ========================================================= */
+/* 1. 기본 설정 (Base)                                       */
+/* ========================================================= */
+#board {
+    /* 테마 변수 */
+    --primary: #111; /* 주요 색상 (헤더 배경 등) */
+    --text: #333; /* 본문 텍스트 */
+    --gray: #888; /* 보조 텍스트 */
+    --border: #eee; /* 테두리 */
+    --bg-hover: #fafafa; /* 호버 배경 */
+    --point: #e74c3c; /* 포인트(에러/강조) */
+    --radius: 4px;
+
+    font-size: 19px;
+    color: var(--text);
+    line-height: 1.6;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#board a {
+    text-decoration: none;
+    color: inherit;
+    transition: 0.2s;
+}
+
+#board ul,
+#board li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 공통 레이아웃 */
+#board .layout {
+    max-width: 100%;
+    margin: 0 auto;
+    padding-top: 120px;
+    padding-bottom: 80px;
+}
+
+/* 좁은 레이아웃 (글쓰기 등) */
+#board .layout-narrow {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+
+/* 아이콘 유틸 */
+#board .secret-icon {
+    color: #757575;
+    font-size: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+
+#board .new-icon {
+    display: inline-flex;       /* 박스 형태 유지를 위해 flex 사용 */
+    align-items: center;        /* 수직 중앙 정렬 */
+    justify-content: center;    /* 수평 중앙 정렬 */
+    width: 20px;                /* 박스 너비 */
+    height: 20px;               /* 박스 높이 */
+    background-color: #000;  /* 배경색 (주황색), 빨강을 원하시면 var(--point) 사용 */
+    color: #fff;                /* N 글자 색상 (흰색) */
+    font-size: 10px;            /* N 글자 크기 */
+    font-weight: bold;          /* 글자 굵게 */
+    border-radius: 2px;         /* 모서리 살짝 둥글게 (완전 사각형을 원하면 0px) */
+    margin-left: 6px;           /* 제목과의 간격 */
+    vertical-align: middle;
+    position: relative;
+    line-height: 1;
+    padding: 0;                 /* 불필요한 여백 제거 */
+}
+
+#board .new-icon::before {
+    content: "N";
+}
+
+/* ========================================================= */
+/* 2. 헤더 및 검색창 (Header)                                */
+/* ========================================================= */
+#board .header.search-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d1d5db;
+}
+
+#board .header.search-header .title {
+    font-size: 72px;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0 0 40px 0;
+    line-height: 1.25;
+}
+
+
+
+/* 검색창 영역 */
+#board .simple-search {
+    position: relative;
+    width: 250px;
+}
+#board .simple-search input[type='text'] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 5px 30px 5px 5px;
+    font-size: 16px;
+    text-align: right;
+    outline: none;
+    color: var(--text);
+}
+#board .simple-search .btn-icon {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 0;
+}
+
+
+/* ========================================================= */
+/* 3. 목록 (Gallery Grid Style)                            */
+/* ========================================================= */
+
+/* 그리드 컨테이너 */
+#board .gallery-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
+    gap: 30px; /* 카드 간 간격 */
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* 카드 아이템 */
+#board .gallery-item {
+    background: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px; /* 모서리 둥글게 */
+    overflow: hidden;   /* 이미지 삐져나옴 방지 */
+}
+
+/* 호버 효과 */
+#board .gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+#board .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 1. 썸네일 영역 */
+#board .card-thumb {
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 비율 유지 */
+    position: relative;
+    background-color: #f4f5f7; /* 이미지가 없을 때 배경색 */
+}
+
+#board .card-thumb img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+}
+
+#board .card-thumb .no-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-size: 40px;
+}
+
+/* 2. 텍스트 바디 영역 */
+#board .card-body {
+    padding: 24px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* 메타 정보 (Category Date) */
+#board .card-meta {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+#board .card-cat {
+    color: var(--text); /* 조금 더 진한 색 */
+    margin-right: 8px;
+    position: relative;
+}
+
+/* 카테고리 뒤에 구분선(혹은 간격) */
+#board .card-cat::after {
+    /* content: '';  필요시 구분선 추가 */
+}
+
+#board .card-date {
+    color: #999;
+}
+
+/* 제목 */
+#board .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #000;
+    margin: 0 0 30px 0; /* 제목 아래 여백 */
+
+    /* 2줄 이상 말줄임 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all; /* 단어 단위 줄바꿈 */
+}
+
+/* 하단 태그 배지 */
+#board .card-tags {
+    margin-top: auto; /* 카드 하단으로 밀기 */
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+#board .tag-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: #f4f5f7;
+    color: #666;
+    font-size: 12px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* 게시물 없음 메시지 */
+#board .empty-msg {
+    grid-column: 1 / -1; /* 전체 너비 차지 */
+    padding: 100px 0;
+    text-align: center;
+    color: #999;
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+}
+
+/* ========================================================= */
+/* 반응형 (Mobile)                                           */
+/* ========================================================= */
+@media (max-width: 768px) {
+    #board .gallery-list {
+        grid-template-columns: 1fr; /* 모바일에서는 1열 */
+        gap: 40px;
+    }
+
+    #board .card-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    #board .card-body {
+        padding: 20px 0;
+    }
+}
+
+/* ========================================================= */
+/* 4. 본문 보기 (View Page)                                  */
+/* ========================================================= */
+
+
+/* 레이아웃: 본문 폭을 좁히고 중앙 정렬 */
+#board .layout-post {
+    max-width: 960px;
+    margin: 0 auto;
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
+/* 기존 view-head 스타일 덮어쓰기 (검은 배경 제거) */
+#board .view-head {
+    display: none; /* 기존 헤더 숨김 */
+}
+
+/* --- 새로운 헤더 스타일 --- */
+#board .article-header {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+/* 카테고리 */
+#board .article-category {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+/* 제목 (크고 굵게) */
+#board .article-title {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #111;
+    margin: 0 0 40px 0;
+    word-break: keep-all;
+}
+
+/* 메타 정보 (날짜 및 공유 버튼) */
+#board .article-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 30px;
+    border-bottom: 1px solid transparent;
+}
+
+#board .article-meta .date {
+    font-size: 16px;
+    color: #888;
+    font-weight: 400;
+}
+
+/* 상단 공유 아이콘 버튼 */
+#board .btn-share-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#board .btn-share-icon:hover {
+    background-color: #f9f9f9;
+    border-color: #bbb;
+}
+
+/* --- 본문 내용 --- */
+#board .article-body {
+    margin-bottom: 80px;
+}
+
+#board .content {
+    font-size: 19px;
+    line-height: 1.8;
+    color: #222;
+}
+
+/* ========================================================= */
+/* 5. 와이드 이미지 (강제 비율 고정형)                       */
+/* ========================================================= */
+
+#board .view-img-wide {
+    display: block;
+    width: 100%;
+    margin: 0 auto 60px;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+
+    /* (선택사항) 배경색: 이미지가 로딩되기 전 영역 확보용 */
+    background-color: #f4f5f7;
+    border-radius: 8px;
+    overflow: hidden; /* 모서리 둥글게 적용을 위해 넘침 숨김 */
+}
+
+/* 이미지 스타일: 비율 강제 고정 및 크롭 */
+#board .view-img-wide img {
+    width: 100%;
+    display: block;
+    margin: 0;
+
+    /* ★ 핵심 1: 비율 강제 고정 (21:9는 영화 스크린 비율, 16:9는 유튜브 비율) */
+    /* 원하는 비율로 숫자를 변경하세요. 예: 21 / 9 또는 3 / 1 */
+    aspect-ratio: 16 / 9;
+
+    /* ★ 핵심 2: 비율이 안 맞아도 꽉 채우기 (위아래 잘림) */
+    object-fit: cover;
+
+    /* (선택) 이미지 중심점: center(기본), top(위쪽 기준), bottom(아래쪽 기준) */
+    object-position: center;
+}
+
+/* ★ PC 화면 (1240px 이상)에서 뚫고 나오기 효과 ★ */
+@media (min-width: 1240px) {
+    #board .view-img-wide {
+        width: 1200px;
+        max-width: none;
+
+        /* 중앙 정렬 보정 */
+        margin-left: calc(50% - 600px);
+        margin-right: calc(50% - 600px);
+    }
+}
+
+
+@media (max-width: 768px) {
+    /* 부모(.layout-post)의 패딩 20px을 무시하고 뚫고 나가기 */
+    #board .view-img-wide {
+        width: calc(100% + 40px); /* 현재 폭 + (왼쪽패딩 20px + 오른쪽패딩 20px) */
+        margin-left: -20px;       /* 왼쪽으로 20px 당김 */
+        margin-right: -20px;      /* 오른쪽으로 20px 당김 */
+
+        border-radius: 0;         /* 모바일에서는 둥근 모서리 제거 (선택사항) */
+    }
+
+    /* 모바일에서의 이미지 비율 */
+    #board .view-img-wide img {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+/* --- 기존 하단 버튼 및 네비게이션 스타일 보정 --- */
+/* layout-post 안에서도 꽉 차게 보이도록 설정 */
+#board .view-action,
+#board .view-nav {
+    width: 100%;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    #board .article-title {
+        font-size: 32px;
+    }
+}
+
+/* 하단 액션 & 네비게이션 */
+#board .view-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-top: 1px solid var(--border);
+}
+#board .view-action .right {
+    display: flex;
+    gap: 10px;
+}
+
+#board .view-nav {
+    margin-top: 50px;
+    border-top: 1px solid var(--border);
+}
+#board .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    transition: background 0.2s;
+}
+#board .nav-item:hover {
+    background-color: var(--bg-hover);
+}
+#board .nav-item .date {
+    width: 120px;
+    color: var(--gray);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+#board .nav-item .title {
+    flex: 1;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ========================================================= */
+/* 5. 글쓰기 (Write Page)                                    */
+/* ========================================================= */
+#board .write-wrap {
+    padding: 60px 0;
+}
+#board .write-wrap .main-title {
+    font-size: 42px;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+#board .form-group {
+    margin-bottom: 30px;
+}
+#board .form-row {
+    display: flex;
+    gap: 20px;
+}
+#board .form-col {
+    flex: 1;
+}
+
+#board .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #222;
+}
+#board .form-label.req::after {
+    content: '*';
+    color: var(--point);
+    margin-left: 4px;
+}
+#board .form-input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: 0.2s;
+    color: var(--text);
+}
+#board .form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+#board .msg-error {
+    background-color: #fff5f5;
+    color: var(--point);
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ffcccc;
+    margin-bottom: 20px;
+}
+
+/* ========================================================= */
+/* 6. 컴포넌트 (Buttons, Pagination, Files)                  */
+/* ========================================================= */
+/* 버튼 */
+#board .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+#board .btn.primary {
+    background-color: var(--primary);
+    color: #fff;
+}
+#board .btn.primary:hover {
+    opacity: 0.9;
+}
+#board .btn.basic {
+    background-color: #fff;
+    border: 1px solid var(--border);
+    color: #666;
+}
+#board .btn.basic:hover {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+#board .btn-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid var(--border);
+    color: var(--gray);
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#board .btn-circle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#board .btn-circle.list {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+/* 페이지네이션 */
+#board .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+#board .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    border-radius: 4px;
+    font-size: 15px;
+    color: var(--gray);
+    transition: all 0.2s;
+}
+#board .page-link.active {
+    background-color: #f4f5f7;
+    color: var(--text);
+    font-weight: 600;
+}
+#board .page-link:hover:not(.active) {
+    background-color: var(--bg-hover);
+}
+
+/* 텍스트 복사 버튼 전용 스타일 */
+#board .btn-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 24px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* 아이콘 간격 및 색상 */
+#board .btn-copy i {
+    margin-left: 8px;
+    font-size: 15px;
+    color: #888;
+    transition: inherit;
+}
+
+/* 마우스를 올렸을 때 (Hover) */
+#board .btn-copy:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#board .btn-copy:hover i {
+    color: var(--primary);
+}
+
+/* 클릭했을 때 (Active) */
+#board .btn-copy:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================================= */
+/* 7. 반응형 (Mobile)                                        */
+/* ========================================================= */
+@media (max-width: 768px) {
+    #board .layout {
+        padding-top: 80px;
+        padding-bottom: 10px;
+    }
+
+    #board .header.search-header .title {
+        font-size: 42px;
+        margin-bottom: 20px;
+    }
+
+    #board .header.search-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    #board .simple-search {
+        width: 100%;
+    }
+    #board .simple-search input[type='text'] {
+        text-align: left;
+    }
+
+    #board .list-head {
+        display: none;
+    }
+    #board .item-link {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 0;
+    }
+    #board .item-subject {
+        width: 100%;
+        font-size: 17px;
+        white-space: normal;
+        padding-right: 0;
+        margin-bottom: 8px;
+        order: 1;
+    }
+    #board .item-date {
+        width: 100%;
+        font-size: 14px;
+        color: #999;
+        padding-left: 0;
+        order: 2;
+    }
+
+    #board .view-head {
+        padding: 50px 20px 30px;
+    }
+    #board .view-head .subject {
+        font-size: 26px;
+    }
+
+    #board .nav-item .date {
+        display: none;
+    }
+
+    #board .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    #board .btn {
+        flex: 1;
+    }
+}

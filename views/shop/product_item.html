@@ -1,0 +1,93 @@
+<? $this->extend('_layout') ?>
+
+<? $this->section('title') ?>
+<?= $product['name'] ?>
+<? $this->endSection() ?>
+
+<? $this->section('content') ?>
+
+<section class="unit">
+  <article class="product-detail">
+    <div class="pd-right">
+      <? if (!empty($product['image_main'])): ?>
+        <div class="pd-imgbox">
+          <img src="<?= $product['image_main'] ?>" alt="제품 이미지 1">
+        </div>
+      <? endif; ?>
+
+      <? if (!empty($product['image_sub1'])): ?>
+        <div class="pd-imgbox">
+          <img src="<?= $product['image_sub1'] ?>" alt="제품 이미지 2">
+        </div>
+      <? endif; ?>
+
+      <? if (!empty($product['image_sub2'])): ?>
+        <div class="pd-imgbox">
+          <img src="<?= $product['image_sub2'] ?>" alt="제품 이미지 3">
+        </div>
+      <? endif; ?>
+
+      <? if (!empty($product['image_sub3'])): ?>
+        <div class="pd-imgbox">
+          <img src="<?= $product['image_sub3'] ?>" alt="제품 이미지 4">
+        </div>
+      <? endif; ?>
+
+    </div>
+    <aside class="pd-left">
+      <div class="pd-left-inner">
+        <div class="pd-info">
+          <h1 class="font-t-md"><?= $product['name'] ?></h1>
+          <p class="font-b-lg gray"><?= $product['slogan'] ?></p>
+
+          <div class="pd-color-picker">
+            <div class="pd-color-label font-b-sm">
+              색상: <span class="pd-color-name">내추럴 골드</span>
+            </div>
+            <ul class="pd-color-list">
+              <li class="pd-color-item">
+                <button class="pd-color-swatch" style="--color-value: #8A857B;" aria-label="색상 네츄럴 골드"></button>
+              </li>
+              <li class="pd-color-item">
+                <button class="pd-color-swatch" style="--color-value: #2E455C;" aria-label="색상 딥 블루"></button>
+              </li>
+              <li class="pd-color-item">
+                <button class="pd-color-swatch --is-active" style="--color-value: #F0F0E6;" aria-label="색상 크림 화이트"></button>
+              </li>
+              <li class="pd-color-item">
+                <button class="pd-color-swatch" style="--color-value: #424245;" aria-label="색상 스페이스 그레이"></button>
+              </li>
+            </ul>
+          </div>
+          <p class="pd-price font-b-lg b600">₩<?= number_format($product['price'], 0) ?> 원</p>
+          <div class="pd-actions">
+            <button type="button" class="btn btn-primary">제품 PDF 다운로드</button>
+            <button type="button" class="btn btn-outline">쇼핑몰에서 보기</button>
+          </div>
+        </div>
+      </div class="pd-left-inner">
+    </aside>
+  </article>
+</section>
+
+<div class="line"></div>
+
+<section class="unit mt-50">
+  <div class="image-detail">
+
+    <h2 class="font-t-sm">제품 상세 설명</h2>
+    <p class="font-b-sm">
+      제품의 정보를 확인하세요
+    </p>
+
+    <figure class="mt-20">
+      <? if (!empty($product['image_detail'])): ?>
+        <div class="detail-imgbox mb-20">
+          <img src="<?= $product['image_detail'] ?>" alt="상세 이미지 1">
+        </div>
+      <? endif; ?>
+    </figure>
+  </div>
+</section>
+
+<? $this->endSection() ?>

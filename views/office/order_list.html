@@ -1,0 +1,86 @@
+<div class="search-bar">
+  <input id="orderSearch" class="search-input" type="search" placeholder="<?= ACCOUNT_NAME ?> 검색" aria-label="<?= ACCOUNT_NAME ?> 검색" />
+</div>
+
+<div class="order-tabs">
+  <button class="tab-btn active" data-status="all">전체</button>
+  <button class="tab-btn" data-status="pending">결제대기</button>
+  <button class="tab-btn" data-status="paid">결제완료</button>
+</div>
+
+<section class="simple-order-list">
+  <? foreach ($order as $row): ?>
+    <div class="order-card is-<?= $row['status'] ?>" data-order-id="<?= $row['order_number'] ?>" data-account-id="<?= $row['mlm_id'] ?>">
+      <div class="order-left">
+        <div class="order-info">
+          <p class="order-number font-c-lg b700">
+            <?= ORDER_NUMBER ?>:
+            <?= $row['order_number'] ?>
+          </p>
+          <p class="account"><?= $row['mlm_id'] ?></p>
+          <p class="title"><?= $row['product_name'] ?></p>
+        </div>
+      </div>
+      <div class="order-right">
+        <div class="price-date-group">
+          <p class="price"><?= number_format($row['final_price']) ?> 원</p>
+          <p class="date font-b-sm"><?= $row['created_at'] ?> 등록</p>
+        </div>
+        <div class="btn-row">
+          <button
+            class="btn-base btn-primary"
+            data-modal-type="iframe"
+            data-url="/office/bonus/dual/<?= encrypt_id($row['mlm_id']) ?>"
+            data-title="보너스 이력"
+            data-size="full">
+            <?= BONUS_HISTORY ?>
+          </button>
+          <a href="/office/order/checkout/<?= encrypt_id($row['order_number']) ?>" class="btn-base btn-black"><?= ORDER_PAY ?></a>
+          <button
+            class="btn-base btn-matrix"
+            data-modal-type="iframe"
+            data-url="/office/line/sponsor/<?= encrypt_id($row['mlm_id']) ?>"
+            data-title="라인 구조도"
+            data-size="full">
+            <?= MLM_LINE ?>
+          </button>
+          <a href="/office/order/cancel/<?= encrypt_id($row['order_number']) ?>" class="btn-base btn-cancel"><?= ORDER_CANCEL ?></a>
+        </div>
+      </div>
+    </div>
+  <? endforeach; ?>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('orderSearch');
+    const cards = Array.from(document.querySelectorAll('.order-card'));
+    const tabsContainer = document.querySelector('.order-tabs');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    let currentStatusFilter = 'all';
+
+    // 필터 적용 함수
+    function applyFilters() {
+      const searchQuery = searchInput.value.trim().toLowerCase();
+      cards.forEach((card) => {
+        const statusMatch = currentStatusFilter === 'all' || card.classList.contains(`is-${currentStatusFilter}`);
+        const accountText = card.querySelector('.account').textContent.toLowerCase();
+        const searchMatch = !searchQuery || accountText.includes(searchQuery);
+        card.style.display = statusMatch && searchMatch ? 'flex' : 'none';
+      });
+    }
+
+    // 탭 클릭
+    tabsContainer.addEventListener('click', (e) => {
+      const clickedTab = e.target.closest('.tab-btn');
+      if (!clickedTab) return;
+      tabButtons.forEach((btn) => btn.classList.remove('active'));
+      clickedTab.classList.add('active');
+      currentStatusFilter = clickedTab.dataset.status;
+      applyFilters();
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+
+  });
+</script>

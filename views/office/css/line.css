@@ -1,0 +1,205 @@
+/* =================================== */
+/* Basic Styles                      */
+/* =================================== */
+#chart-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.org-chart-container {
+  flex-grow: 1;
+}
+.no-data {
+  width: 100%;
+  text-align: center;
+  padding-top: 5rem;
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* =================================== */
+/* UI Elements                       */
+/* =================================== */
+.floating-remote {
+  position: fixed;
+  right: 2rem;
+  bottom: 4rem;
+  /* 하단 위치 조정 */
+  display: flex;
+  /* 처음부터 보이도록 수정 */
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 0.75rem 0.5rem;
+  border-radius: 1.5rem;
+  /* 캡슐 모양 */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: all 0.2s ease-in-out;
+  gap: 0.25rem;
+}
+
+.floating-remote.dragging {
+  cursor: grabbing;
+  user-select: none;
+  /* 드래그 중 텍스트 선택 방지 */
+}
+
+.remote-handle {
+  width: 48px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #80868b;
+  font-size: 1.25rem;
+  cursor: grab;
+  /* 드래그 핸들임을 표시 */
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 8px;
+}
+
+.remote-handle:hover {
+  background-color: #f1f3f4;
+}
+
+.remote-btn {
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  /* 배경 투명 */
+  border: none;
+  border-radius: 50%;
+  /* 호버 효과를 위한 원형 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  color: #5f6368;
+  font-size: 1.25rem;
+  /* 아이콘 크기 */
+}
+
+.remote-btn:hover {
+  background-color: #f1f3f4;
+  /* 호버 시 배경색 */
+}
+
+/* =================================== */
+/* Organization Chart                */
+/* =================================== */
+
+/* 메인 컨테이너 */
+.org-chart-container {
+  position: relative;
+  padding: 2rem;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  /* Flexbox 컨테이너로 설정 */
+  box-sizing: border-box;
+  cursor: grab;
+  /* 기본 커서를 드래그 가능으로 변경 */
+}
+
+.org-chart-container.active {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* 조직도 루트 */
+#org-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  /* 중앙/좌측 정렬 */
+  position: relative;
+}
+
+/* 캔버스 */
+#line-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 노드 카드 스타일 */
+.node-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  min-width: 150px;
+  background-color: white;
+  border: 1px solid #e0e6f0;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  text-align: center;
+  z-index: 1;
+}
+
+.node-card:hover {
+  border-color: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.node-name {
+  font-weight: 600;
+  color: #1a202c;
+  font-size: 1.125rem;
+}
+
+.node-id {
+  font-size: 0.875rem;
+  color: #718096;
+  margin-top: 0.25rem;
+}
+
+/* 조직도 레이아웃 */
+.org-chart-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.children-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* =================================== */
+/* Mobile Responsive Styles          */
+/* =================================== */
+@media (max-width: 768px) {
+  .org-chart-container {
+    padding: 1rem;
+  }
+
+  .children-container {
+    gap: 1rem;
+  }
+
+  .node-card {
+    min-width: 120px;
+    padding: 0.75rem;
+  }
+
+  .node-name {
+    font-size: 1rem;
+  }
+
+  .node-id {
+    font-size: 0.75rem;
+  }
+}

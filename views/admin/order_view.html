@@ -1,0 +1,159 @@
+<section class="main-section">
+    <div class="section-header">
+        <div>
+            <h2>
+                <?= ACCOUNT_NAME ?>
+                상세 정보
+            </h2>
+        </div>
+        <div class="page-actions">
+            <a href="/admin/order/list" class="btn btn-secondary">목록</a>
+            <button type="submit" form="orderForm" class="btn btn-primary">저장</button>
+        </div>
+    </div>
+
+    <form action="/admin/order/save" id="orderForm" accept-charset="utf-8" novalidate method="post">
+        <?= csrf_field() ?>
+        <? if ($order_number): ?>
+            <input type="hidden" name="order_number" value="<?= $order_number ?>" />
+        <? endif; ?>
+        <div class="detail-layout">
+            <!-- Left Column -->
+            <div>
+                <div class="card">
+                    <h4 class="form-header">
+                        <?= ACCOUNT_NAME ?>
+                        상품 정보
+                    </h4>
+                    <table class="first-table">
+                        <thead>
+                            <tr>
+                                <th>상품</th>
+                                <th>수량</th>
+                                <th>금액</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="first-info">
+                                        <span class="place">P1</span>
+                                        <div>
+                                            <div class="first-name"><?= $order['order_number'] ?? '' ?></div>
+                                            <div class="first-details b600 font-b-sm"><?= $order['product_name'] ?? '' ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td><?= $order['product_price_format'] ?? '' ?>원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h4 class="form-header">결제 정보 요약</h4>
+                    <ul class="summary-list">
+                        <li>
+                            <span class="label">상품 합계</span>
+                            <span class="value"><?= $order['product_price_format'] ?? '' ?>원</span>
+                        </li>
+                        <li>
+                            <span class="label">딜러할인</span>
+                            <span class="value">-
+                                <?= $order['total_discount_format'] ?? '' ?>원</span>
+                        </li>
+                        <li class="total">
+                            <span class="label">총 결제 금액</span>
+                            <span class="value"><?= $order['total_price_format'] ?? '' ?>원</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <!-- <div class="btn-toggle-group" id="order-status-group">
+                    <button type="button" class="btn-toggle active" data-value="paid">결제 완료</button>
+                    <button type="button" class="btn-toggle" data-value="pending">결제 대기</button>
+                </div> -->
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <div class="card">
+                    <h4 class="form-header">주문 기본 정보</h4>
+                    <div class="form-group">
+                        <label for="order-id">주문 번호</label>
+                        <input type="text" id="order-id" class="form-control" value="<?= $order['order_number'] ?? '' ?>" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="order-date">주문 일시</label>
+                        <input type="datetime-local" name="created_at" class="form-control" value="<?= $order['created_at'] ?? '' ?>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="order-id">아이디</label>
+                        <input type="text" class="form-control" value="<?= $order['member_id'] ?? '' ?>" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="order-id"><?= ACCOUNT_NAME ?>
+                            아이디</label>
+                        <input type="text" class="form-control" value="<?= $order['mlm_id'] ?? '' ?>" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="order-id">수령인</label>
+                        <input type="text" class="form-control" value="<?= $order['recipient_name'] ?? '' ?>" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="order-id">방문대리점</label>
+                        <input type="text" class="form-control" value="<?= $order['recipient_address'] ?? '' ?>" readonly />
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a href="/admin/order/list" class="btn btn-secondary">목록</a>
+                    <button type="submit" form="orderForm" class="btn btn-primary">저장</button>
+                    <? if (!empty($order['order_id'])): ?>
+                        <a href="/admin/order/delete/<?= encrypt_id($order['order_id']) ?>" id="delete-product-btn" class="btn btn-danger-outline"> 삭제 </a>
+                    <? endif; ?>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<!-- Custom Modal -->
+<div class="modal-overlay" id="custom-modal">
+    <div class="modal-content">
+        <p id="modal-message"></p>
+        <div class="modal-actions" id="modal-actions">
+            <!-- Buttons are dynamically added here -->
+        </div>
+    </div>
+</div>
+
+<?= load_asset('js/modal.js') ?>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 주문 상태 버튼 토글 로직 ---
+        const statusGroup = document.getElementById('order-status-group');
+        const statusInput = document.getElementById('order-status-input');
+
+        if (statusGroup && statusInput) {
+            statusGroup.addEventListener('click', (e) => {
+                const clickedButton = e.target.closest('.btn-toggle');
+                if (clickedButton) {
+                    // 그룹 내 모든 버튼에서 active 클래스 제거
+                    statusGroup.querySelectorAll('.btn-toggle').forEach((btn) => {
+                        btn.classList.remove('active');
+                    });
+
+                    // 클릭된 버튼에 active 클래스 추가
+                    clickedButton.classList.add('active');
+
+                    // 숨겨진 input 값 업데이트
+                    statusInput.value = clickedButton.dataset.value;
+                }
+            });
+        }
+    });
+</script>

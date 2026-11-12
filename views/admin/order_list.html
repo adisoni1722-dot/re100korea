@@ -1,0 +1,80 @@
+<section class="main-section">
+    <div class="section-header">
+        <h2>
+            <?=ORDER_LIST?>
+        </h2>
+        <!-- <a href="/admin/product/view" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            매출등록
+        </a> -->
+    </div>
+
+    <div class="card" data-table-interactive>
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" data-search-input placeholder="이름, 이메일 검색..." novalidate />
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="list-table">
+                <thead>
+                    <tr>
+                        <th data-sort data-search>아이디<i class="sort-icon"></i></th>
+                        <th data-sort class="mb-hidden">주문번호<i class="sort-icon"></i></th>
+                        <th data-sort class="mb-hidden">매출액<i class="sort-icon"></i></th>
+                        <th data-sort class="mb-hidden">등록일<i class="sort-icon"></i></th>
+                        <th data-sort>상태<i class="sort-icon"></i></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-table-body>
+                    <? foreach ($order as $row): ?>
+                    <tr data-href="/admin/order/view/<?=$row['order_number']?>">
+                        <td>
+                            <div class="table-info">
+                                <div class="avatar"><?=is_avatar($row['mlm_id'])?></div>
+                                <div>
+                                    <div class="member-name"><?=$row['mlm_id']?></div>
+                                    <div class="member-email"><?=$row['name']?></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="mb-hidden"><?=$row['order_number']?></td>
+                        <td class="mb-hidden b700">
+                            <?=number_format($row['final_price'],0)?>
+                            원
+                        </td>
+                        <td class="mb-hidden"><?=$row['created_at']?></td>
+                        <td>
+                            <span class="status-badge <?=$row['status']?>"><?= $row['status'] === 'paid' ? '결제완료' : '결제대기' ?></span>
+                        </td>
+                        <td>
+                                <a href="#"
+                                    type="button"
+                                    class="btn-icon"
+                                    data-modal-type="confirm"
+                                    data-message="정말 삭제하시겠습니까? [복구불가]"
+                                    data-action="/admin/order/delete/<?= encrypt_id($row['order_number']) ?>">
+                                <i class="fa-solid fa-trash" style="font-size:20px;vertical-align:middle;"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    <? endforeach; ?>
+                </tbody>
+            </table>
+            <div class="empty-state" style="display: none">
+                <i class="fa-solid fa-search"></i>
+                <p>일치하는 항목 없음</p>
+            </div>
+        </div>
+        <div class="table-footer">
+            <span data-total-count></span>
+            <nav class="pagination" data-pagination-nav>
+                <!-- JavaScript will populate this -->
+            </nav>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객센터 연락처 (반응형)</title>
+    <style>
+        /* 페이지 전용 변수 재정의 */
+        :root {
+            --primary: rgb(138, 0, 252);
+            --primary-dark: rgb(77, 15, 128);
+            --white: #ffffff;
+            --text-primary: #212529;
+            --text-secondary: #868e96;
+            --border-color: #dee2e6;
+            --bg-light: #f5f7f8;
+            --point-color: #212121;
+        }
+
+        /* 폰트 및 기본 설정 */
+        body {
+            font-family: 'Malgun Gothic', 'Dotum', 'Apple SD Gothic Neo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        
+        /* ---------------- 연락처 페이지 컨테이너 (PC 기본) ---------------- */
+        .contact-page-container {
+            width: 100%;
+            max-width: 760px; 
+            margin: 60px 20px;
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-sizing: border-box;
+        }
+
+        /* 헤더/제목 스타일 */
+        .contact-header {
+            padding: 30px 40px;
+            background-color: var(--white);
+            border-bottom: 1px solid #dbdbdb; /* 변수 미사용 부분 직접 명시 */
+        }
+
+        .contact-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--point-color);
+            margin: 0;
+        }
+
+        .contact-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* ---------------- 강조된 본사 연락처 섹션 ---------------- */
+        .main-office-contact {
+            padding: 30px 40px;
+            background-color: var(--primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .main-office-contact .label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .main-office-contact .number {
+            font-size: 38px; /* PC 크기 */
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* ---------------- 지점 및 기타 연락처 리스트 섹션 ---------------- */
+        .branch-list-section {
+            padding: 20px 40px 40px;
+        }
+        
+        .branch-list-section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 30px 0 15px;
+        }
+
+        .branch-list-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .branch-list-section li {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .branch-list-section .label {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .branch-list-section .number {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .branch-list-section .number.fax-number {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        
+        /* ---------------- 운영 시간 (푸터) ---------------- */
+        .contact-footer {
+            padding: 20px 40px;
+            background-color: var(--bg-light);
+            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ==============================================
+         * 모바일 환경 (768px 이하) 반응형 스타일
+         * ============================================== */
+        @media (max-width: 768px) {
+            
+            /* 컨테이너는 화면 너비를 가득 채우고 마진/테두리 제거 */
+            .contact-page-container {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            /* 전체 폰트 크기 및 패딩 조정 */
+            .contact-header,
+            .main-office-contact,
+            .branch-list-section,
+            .contact-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            .contact-header h2 {
+                font-size: 24px;
+            }
+            .contact-header p {
+                font-size: 15px;
+            }
+            
+            /* 본사 연락처 폰트 크기 조정 */
+            .main-office-contact .number {
+                font-size: 30px;
+            }
+
+            /* 리스트 제목 패딩 조정 */
+            .branch-list-section h3 {
+                font-size: 18px;
+                margin-top: 20px;
+            }
+
+            /* 리스트 항목의 폰트 크기 조정 */
+            .branch-list-section .label {
+                font-size: 15px;
+            }
+
+            .branch-list-section .number {
+                font-size: 16px;
+            }
+
+            /* 푸터 패딩 조정 */
+            .contact-footer {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contact-page-container">
+        
+        <div class="contact-header">
+            <h2>고객 지원 센터</h2>
+            <p>궁금한 점을 문의해주세요. 신속하고 친절하게 안내해 드리겠습니다.</p>
+        </div>
+
+        <div class="main-office-contact">
+            <span class="label">전산팀 문의 (시스템 문의)</span>
+            <a href="tel:0212345678" class="number">02-1234-5678</a>
+        </div>
+
+        <div class="branch-list-section">
+            
+            <h3>주요 연락처 및 지점</h3>
+            <ul>
+                <li>
+                    <strong class="label">고객센터 (대표)</strong>
+                    <a href="tel:15881234" class="number">1588-1234</a>
+                </li>
+                <li>
+                    <strong class="label">경기 군포 지사</strong>
+                    <a href="tel:0299998888" class="number">02-9999-8888</a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="contact-footer">
+            <p>운영 시간: 평일 09:00 ~ 18:00 (본사 대표번호는 24시간 운영)</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

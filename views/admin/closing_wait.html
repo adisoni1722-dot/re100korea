@@ -1,0 +1,74 @@
+<? $this->extend('admin/_layout') ?>
+<? $this->section('content') ?>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+</div>
+
+<form action="/admin/closing/run" id="closingForm" name="closingForm" novalidate method="post">
+    <?= csrf_field() ?>
+    <section class="main-section">
+        <div class="section-header">
+            <h2>마감 처리</h2>
+            <p class="current-time" id="currentTime"></p>
+        </div>
+
+        <div class="card">
+            <h4 class="form-header">마감 기간 설정</h4>
+            <div class="form-group">
+                <label for="start-date">이전 시작일</label>
+                <input type="text" class="form-control" value="<?= $lastday ?>" readonly />
+            </div>
+            <div class="form-group">
+                <label for="end-date">종료일</label>
+                <input type="text" name="end_day" class="form-control" value="<?= date('Y-m-d H:i:s') ?>" />
+            </div>
+        </div>
+    </section>
+</form>
+
+<div class="page-actions-wrapper">
+    <p class="warning-text"><i class="fa-solid fa-triangle-exclamation"></i> 완료시 까지 창을 닫지 마세요!</p>
+    <div class="page-actions">
+        <button class="btn btn-secondary" onclick="window.close()">취소</button>
+        <button type="submit" form="closingForm" class="btn btn-primary" id="executeBtn">마감 실행</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const closingForm = document.getElementById('closingForm');
+        const executeBtn = document.getElementById('executeBtn');
+        const currentTimeEl = document.getElementById('currentTime');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // --- 현재 시간 표시 ---
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            };
+            currentTimeEl.textContent = now.toLocaleDateString('ko-KR', options);
+        }
+        updateTime();
+        setInterval(updateTime, 60000); // 1분마다 업데이트
+
+
+        closingForm.addEventListener('submit', (event) => {
+            // event.preventDefault()를 제거하여 기본 폼 전송을 허용합니다.
+
+            executeBtn.disabled = true;
+            executeBtn.textContent = '처리 중...';
+            loadingOverlay.classList.add('visible');
+
+            // 이 리스너가 완료되면 폼은 action에 지정된 URL로 정상적으로 제출됩니다.
+        });
+    });
+</script>
+<? $this->endSection() ?>

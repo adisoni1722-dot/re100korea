@@ -1,0 +1,131 @@
+<style>
+    /* ==========================================================================
+   Product Card Component
+   ========================================================================== */
+    .product-card {
+        background-color: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        /* or use gap utility on parent */
+    }
+
+    .product-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .product-card__details {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .product-card__image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+        /* 이미지가 잘리지 않도록 추가 */
+    }
+
+    .product-card__info {
+        flex-grow: 1;
+    }
+
+    .product-card__title {
+        margin-bottom: 8px;
+    }
+
+    .product-card__price--original {
+        color: var(--text-secondary);
+        /* gray 대신 변수 사용 */
+        text-decoration: line-through;
+    }
+
+    .product-card__actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+
+    /* ==========================================================================
+   Button Component
+   ========================================================================== */
+    .btn {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--white);
+        color: var(--text-primary);
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn--primary {
+        background-color: var(--primary);
+        color: var(--white);
+        border-color: var(--primary);
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>
+
+
+<div class="product-list-container">
+    <? foreach ($product as $row): ?>
+        <div class="product-card">
+            <div class="product-card__header">
+                <span class="status font-b-sm b600">딜러전용</span>
+            </div>
+            <div class="product-card__details">
+                <img src="<?= image_path($row['image_main']); ?>" alt="<?= $row['name'] ?> 이미지" class="product-card__image">
+                <div class="product-card__info">
+                    <h3 class="product-card__title font-b-md">
+                        <?= $row['name'] ?>
+                    </h3>
+                    <p class="product-card__price--original font-b-sm">
+                        <?= number_format($row['price'], 0) ?>원
+                    </p>
+                    <p class="product-card__price--discount font-b-md b700">
+                        <?= number_format($row['discount_price'], 0) ?>원
+                    </p>
+                </div>
+            </div>
+            <div class="product-card__actions">
+                <button type="button"
+                    class="btn view-details-btn font-c-md b600"
+                    data-modal-type="iframe"
+                    data-url="/shop/product/item/<?= $row['product_id'] ?>?view=modal"
+                    data-title="제품 상세보기"
+                    data-size="lg">
+                    제품 상세보기
+                </button>
+                <a href="/office/product/form/<?= encrypt_id($row['product_id']) ?>" class="btn btn--primary font-c-md b600">
+                    <?= ORDER ?>
+                </a>
+            </div>
+        </div>
+    <? endforeach; ?>
+</div>
+
+<div id="product-modal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2 class="modal-header__title font-b-md">상품 상세</h2>
+            <button class="modal-close-btn" aria-label="닫기">&times;</button>
+        </div>
+        <div class="modal-content">
+            <iframe id="product-iframe" src="" title="상품 상세 정보"></iframe>
+        </div>
+    </div>
+</div>

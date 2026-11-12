@@ -1,0 +1,62 @@
+<div class="member-container">
+    <div class="form-wrapper">
+        <div class="logo">
+            <a href="/"><img src="/assets/images/logo.svg?ver=<?= ver() ?>" alt="Logo" style="width: 150px; height: 30px" /></a>
+        </div>
+        <h1>계정 만들기</h1>
+
+        <form action="/member/register" class="register-form" id="register-form" name="register-form" novalidate method="post">
+        <?= csrf_field(); ?>
+        <div class="input-group">
+            <div class="input-with-button">
+                <input type="text" id="member_id" name="member_id" class="form-input" placeholder="아이디" inputmode="latin" lang="en" autocomplete="off"/>
+                <button type="button" id="check-id-btn" class="check-btn">중복확인</button>
+            </div>
+            <div id="id_check_msg" class="help-text"></div>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="name" name="name" class="form-input" placeholder="성 명" />
+            <div id="name_check_msg" class="help-text"></div>
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" name="password" class="form-input" placeholder="비밀번호" />
+            <div id="password_check_msg" class="help-text"></div>
+        </div>
+        <div class="input-group">
+            <input type="password" id="password_confirm" name="password_confirm" class="form-input" placeholder="비밀번호 확인" />
+            <span id="password_confirm_msg" class="help-text"></span>
+        </div>
+        <div class="input-group">
+            <input type="tel" id="phone" name="phone" class="form-input" placeholder="휴대폰 번호" />
+            <div id="phone_check_msg" class="help-text">
+                휴대폰 번호 입력은 선택사항 입니다
+                <span class="help-icon">!</span>
+            </div>
+        </div>
+        <div class="input-group">
+            <input type="text" id="dealer_code" name="dealer_code" class="form-input" placeholder="대리점 코드 (선택사항)" />
+            <div id="dealer_check_msg" class="help-text">
+                가입 대리점 코드가 있다면 입력하세요
+                <span class="help-icon">!</span>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">계정 만들기</button>
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <div class="login-link">
+            <p>이미 회원이신가요? <a href="/member/login">로그인</a></p>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const memberUrls = {
+        checkId: "/member/checkID",
+    };
+</script>
+<?= load_asset('js/register.js')?>

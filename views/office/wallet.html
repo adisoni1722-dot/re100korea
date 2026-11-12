@@ -1,0 +1,97 @@
+<style>
+  .history-item__amount-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .history-item__balance {
+    font-size: 1.3rem;
+    color: #888;
+  }
+</style>
+
+
+<div class="main-balance-card">
+  <div class="main-balance-card__top">
+    <span class="main-balance-card__label">Total Balance</span>
+    <button type="button" class="main-balance-card__toggle"></button>
+  </div>
+  <p class="main-balance-card__amount"><?= context('get_balance_format') ?><span class="info-box__unit">P</span></p>
+  <p class="main-balance-card__save-point">Save : 0</p>
+
+  <div class="main-balance-card__bottom">
+    <div class="main-balance-card__income">
+      <i class="fa-solid fa-arrow-down"></i>
+      <span>Income</span>
+      <small><?= number_format($summary['withdraw']) ?></small>
+    </div>
+    <div class="main-balance-card__expense">
+      <i class="fa-solid fa-arrow-up"></i>
+      <span>Expense</span>
+      <small><?= number_format($summary['deposit']) ?></small>
+    </div>
+  </div>
+  <div class="main-balance-card__add-money">
+    <button type="button">+ Transfer</button>
+  </div>
+</div>
+
+<div class="bottom-quick-menu">
+  <a
+    href=""
+    class="bottom-quick-menu__item"
+    data-modal-type="iframe"
+    data-url="/office/wallet/qrcode/<?= encrypt_id(session('member_id')) ?>"
+    data-title="내 QR코드"
+    data-reload="true"
+    data-size="sm">
+    <div class="bottom-quick-menu__icon">
+      <i class="fa-solid fa-qrcode"></i>
+    </div>
+    <span class="bottom-quick-menu__label">QR코드</span>
+  </a>
+
+
+  <a href="/office/wallet/transfer" class="bottom-quick-menu__item">
+    <div class="bottom-quick-menu__icon">
+      <i class="fa-solid fa-money-bill-transfer"></i>
+    </div>
+    <span class="bottom-quick-menu__label">이체</span>
+  </a>
+  <a href="/office/wallet/bank" class="bottom-quick-menu__item">
+    <div class="bottom-quick-menu__icon">
+      <i class="fa-solid fa-building-columns"></i>
+    </div>
+    <span class="bottom-quick-menu__label">인출</span>
+  </a>
+</div>
+
+<div class="transaction-history">
+  <div class="history-header">
+    <h2 class="font-t-sm b600">최근 이용내역</h2>
+    <a href="#" class="view-all-link">전체보기</a>
+  </div>
+  <ul class="history-list">
+    <? foreach ($tx_list as $row): ?>
+
+      <li class="history-item">
+        <div class="history-item__info">
+          <div class="history-item__datetime">
+            <span class="history-item__date"><?= $row['date'] ?></span>
+            <span class="history-item__time"><?= $row['time'] ?></span>
+          </div>
+          <div class="history-item__description">
+            <span class="history-item__memo"><?= $row['message'] ?></span>
+            <span class="history-item__type"><?= $row['source_name'] ?></span>
+          </div>
+        </div>
+        <div class="history-item__amount-wrap">
+          <span class="history-item__amount amount--positive"> <?= $row['signed_amount_format'] ?>P</span>
+          <span class="history-item__balance"></span>
+        </div>
+      </li>
+    <? endforeach; ?>
+  </ul>
+</div>

@@ -1,0 +1,143 @@
+/* Dashboard Grid */
+.dashboard-grid {
+    width: 100%;
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--bg-panel);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border-color);
+}
+
+.card-title {
+    font-size: 1.6rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-value {
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-icon {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-card .card-value {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.stat-card .value-change {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-success);
+    background-color: rgba(16, 185, 129, 0.1);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.large-chart-card {
+    background-color: var(--bg-dark-panel);
+    color: var(--text-light);
+    border: none;
+}
+
+.large-chart-card .card-title {
+    color: #a0a9b8;
+}
+.large-chart-card .card-value {
+    font-size: 4.2rem;
+    color: var(--text-light);
+    margin-bottom: 16px;
+}
+.chart-container {
+    height: 150px;
+}
+
+.progress-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 150px;
+    width: 100%;
+}
+
+.info-list-card {
+    min-height: 150px;
+}
+
+.stat-group-card .stat-card {
+    height: 145px;
+    margin-bottom: 16px;
+}
+
+.progress-card-info {
+    flex: 1;
+}
+.progress-card .card-value {
+    font-size: 2.4rem;
+}
+.progress-indicator {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.progress-indicator svg {
+    transform: rotate(-90deg);
+}
+.progress-indicator circle {
+    stroke-width: 8;
+    fill: none;
+}
+.progress-bg {
+    stroke: var(--border-color);
+}
+.progress-bar {
+    stroke: var(--text-primary);
+    stroke-dasharray: 226;
+    transition: stroke-dashoffset 0.5s ease;
+}
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.info-list-card .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+}
+.info-list-card .info-item:not(:first-child) {
+    border-top: 1px solid var(--border-color);
+}
+.info-list-card .item-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+}
+.info-list-card .item-value {
+    font-weight: 600;
+}

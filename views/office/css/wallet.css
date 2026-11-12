@@ -1,0 +1,396 @@
+/* ==============================================
+* Wallet Page Styles (Screenshot Style)
+* ============================================== */
+
+/* 1. 스크린샷 스타일의 메인 잔액 카드 */
+.main-balance-card {
+  position: relative;
+  background: linear-gradient(135deg, #a700f1, #6b00b2);
+  color: var(--white);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  /* 하단 퀵메뉴와의 간격 조정 */
+  overflow: hidden;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+/* 카드 배경 패턴 */
+.main-balance-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="diagonalHash" patternUnits="userSpaceOnUse" width="10" height="10"><path d="M-2,2 l4,-4 M0,10 l10,-10 M8,12 l4,-4" stroke="rgba(255,255,255,0.1)" stroke-width="1"></path></pattern></defs><rect width="100%" height="100%" fill="url(%23diagonalHash)"/></svg>');
+  opacity: 0.5;
+  z-index: -1;
+}
+
+/* 메인 잔액 아래 Save Point 스타일 */
+.main-balance-card__save-point {
+  font-size: 1.6rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-top: -12px;
+  /* 메인 금액과 간격 조정 */
+  margin-bottom: 20px;
+  text-align: left;
+  /* 좌측 정렬 */
+}
+
+/* 기존 금액의 하단 마진을 제거하여 간격을 새 요소로 제어 */
+.main-balance-card__amount {
+  margin-bottom: 0;
+}
+
+.main-balance-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-balance-card__label {
+  font-size: 1.6rem;
+  opacity: 0.8;
+}
+
+.main-balance-card__toggle {
+  width: 32px;
+  height: 18px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 9px;
+  position: relative;
+  cursor: pointer;
+}
+
+.main-balance-card__toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--white);
+  border-radius: 50%;
+}
+
+.main-balance-card__amount {
+  font-size: 3.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.main-balance-card__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.main-balance-card__income,
+.main-balance-card__expense {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0 8px;
+}
+
+/* SVG 스타일을 i 태그로 변경 */
+.main-balance-card__income i,
+.main-balance-card__expense i {
+  grid-row: 1 / 3;
+  font-size: 20px;
+  /* 아이콘 크기 지정 */
+}
+
+.main-balance-card__income span,
+.main-balance-card__expense span {
+  font-size: 1.4rem;
+  opacity: 0.8;
+}
+
+.main-balance-card__income small,
+.main-balance-card__expense small {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.main-balance-card__add-money {
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--white);
+  border-radius: 12px 0 0 12px;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.main-balance-card__add-money button {
+  padding: 16px 12px;
+  font-weight: 600;
+  writing-mode: vertical-rl;
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+/* 2. 하단 퀵메뉴 (가로 막대형 레이아웃) */
+.bottom-quick-menu {
+  display: flex;
+  /* Flexbox 레이아웃으로 변경 */
+  background-color: var(--white);
+  border-radius: 18px;
+  /* 더 부드러운 모서리 */
+  border: 1px solid var(--border-color);
+  margin-bottom: 40px;
+  overflow: hidden;
+  /* 내부 요소가 모서리를 벗어나지 않도록 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  /* 은은한 그림자 추가 */
+}
+
+.bottom-quick-menu__item {
+  flex: 1;
+  /* 모든 아이템이 동일한 너비를 가지도록 설정 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 10px;
+  border-right: 1px solid var(--border-color);
+  /* 아이템 구분선 */
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+/* 마지막 아이템의 오른쪽 구분선 제거 */
+.bottom-quick-menu__item:last-child {
+  border-right: none;
+}
+
+.bottom-quick-menu__item:hover {
+  background-color: var(--primary-light);
+  /* 마우스 오버 시 배경색 변경 */
+  color: var(--primary);
+  z-index: 1;
+}
+
+.bottom-quick-menu__icon {
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  /* 기존 배경 제거 */
+  border-radius: 0;
+  border: none;
+  margin-bottom: 10px;
+  color: var(--primary);
+  transition: transform 0.2s ease-in-out;
+}
+
+.bottom-quick-menu__item:hover .bottom-quick-menu__icon {
+  transform: scale(1.1);
+  /* 마우스 오버 시 아이콘 확대 효과 */
+}
+
+/* SVG 스타일을 i 태그로 변경 */
+.bottom-quick-menu__icon i {
+  font-size: 28px;
+  /* 아이콘 크기 지정 */
+}
+
+.bottom-quick-menu__label {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.bottom-quick-menu__item:hover .bottom-quick-menu__label {
+  color: var(--primary);
+  /* 마우스 오버 시 텍스트 색상 변경 */
+  font-weight: 600;
+}
+
+/* 3. 최근 이용내역 */
+.transaction-history {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.view-all-link {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.view-all-link:hover {
+  color: var(--primary);
+}
+
+.history-list {
+  border-top: 1px solid var(--border-color);
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-item__info {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.history-item__datetime {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.history-item__date {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.history-item__time {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.history-item__description {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-item__memo {
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.history-item__type {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.history-item__amount {
+  font-size: 1.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.amount--negative {
+  color: var(--danger);
+}
+
+.amount--positive {
+  color: #2db400;
+}
+
+@media (max-width: 768px) {
+  .main-balance-card__amount {
+    font-size: 2.8rem;
+  }
+
+  .bottom-quick-menu {
+    gap: 8px;
+  }
+
+  .bottom-quick-menu__icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .transaction-history {
+    margin-top: 32px;
+    padding: 20px;
+  }
+}
+
+.qr-info {
+  margin-top: 24px;
+}
+
+.qr-info .company-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.qr-info .user-name {
+  font-size: 1.6rem;
+  color: var(--text-secondary);
+}
+
+/* 모달 애니메이션 */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

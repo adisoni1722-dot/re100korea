@@ -1,0 +1,269 @@
+/* ===============================
+   기본 스타일 및 공통 레이아웃
+   =============================== */
+body, html {
+    background-color: #f5f5f8;
+}
+
+.member-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 로그인/회원가입 폼을 상단에 정렬 */
+    padding: 5vh 20px;
+    box-sizing: border-box;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 440px; /* 회원가입 폼 기준 넓은 너비로 통일 */
+    background-color: #ffffff;
+    padding: 50px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 767px) {
+    body, html{
+        background-color: #fff;
+        align-items: flex-start; /* 모바일에서는 상단에 붙임 */
+    }
+    .member-container .form-wrapper {
+        padding: 20px !important;
+        box-shadow: none;
+    }
+}
+
+/* ===============================
+   로고, 제목
+   =============================== */
+.logo {
+    text-align: left;
+    font-weight: 800;
+}
+
+.logo a img {
+    width: 150px;
+    height: auto;
+}
+
+h1, h2 { /* 회원가입 h1, 로그인 h2 */
+    font-size: 26px;
+    font-weight: 700;
+    color: #212529;
+    margin: 0 0 40px 0;
+    line-height: 1.5;
+}
+
+/* ===============================
+   입력 필드 (form-input)
+   =============================== */
+.input-group {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    font-size: 18px;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    background-color: transparent;
+    letter-spacing: -.044rem;
+}
+
+.form-input::placeholder {
+    color: #757575;
+}
+
+.form-input:focus {
+    border-bottom: 2px solid #343a40;
+}
+
+.form-input:focus::placeholder {
+    color: transparent;
+}
+
+/* ===============================
+   버튼 (submit-btn, check-btn, social-btn)
+   =============================== */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #212529;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    background-color: #7416e6;
+}
+
+/* 아이디 중복확인 버튼 */
+.input-with-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.check-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #212529;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.login_title {
+    margin-bottom: 50px;
+}
+/* 소셜 로그인 버튼 */
+.social-logins {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.social-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.social-btn svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.google-btn:hover {
+    background-color: #f8f9fa;
+}
+
+.kakao-btn {
+    background-color: #FEE500;
+    border-color: #FEE500;
+}
+
+.kakao-btn:hover {
+    background-color: #F2D800;
+}
+
+/* ===============================
+   유효성 검사 및 상태 메시지
+   =============================== */
+.help-text {
+    height: 18px; /* 메시지 표시 영역 확보 */
+    font-size: 14px;
+    color: #868e96;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    letter-spacing: -.044rem;
+}
+
+.help-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    background-color: #e9ecef;
+    color: #868e96;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* 에러 메시지 스타일 (공통) */
+.error {
+    color: red;
+    font-size: 14px;
+    display: block;
+   padding: 10px 0;
+}
+
+/* 유효성 통과 스타일 */
+.form-input.success {
+    border-bottom-color: #28a745;
+    background-color: #f0fff4;
+}
+
+.check-btn.success {
+    background-color: #28a745;
+    color: #ffffff;
+    border-color: #28a745;
+}
+
+/* ===============================
+   구분선 및 하단 링크
+   =============================== */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #adb5bd;
+    margin: 40px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.divider span {
+    padding: 0 15px;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.login-link {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 15px;
+    color: #495057;
+}
+
+.login-link a {
+    color: #212529;
+    font-weight: 500;
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,66 @@
+<section class="main-section">
+    <div class="section-header">
+        <h2><?= $header['title'] ?? '' ?></h2>
+        <!-- <a href="/admin/member/view" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            회원등록
+        </a> -->
+    </div>
+
+    <div class="card" data-table-interactive>
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" data-search-input placeholder="이름, 이메일 검색..." novalidate />
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="list-table">
+                <thead>
+                    <tr>
+                        <th data-sort data-search>이름<i class="sort-icon"></i></th>
+                        <th class="mb-hidden">연락처</th>
+                        <th data-sort class="mb-hidden">가입일<i class="sort-icon"></i></th>
+                        <th data-sort>상태<i class="sort-icon"></i></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-table-body>
+                    <? foreach ($member as $row): ?>
+                    <tr data-href="/admin/member/view/<?=$row['id']?>">
+                        <td>
+                            <div class="table-info">
+                                <div class="avatar"><?=is_avatar($row['member_id'])?></div>
+                                <div>
+                                    <div class="member-name"><?=$row['name']?></div>
+                                    <div class="member-email"><?=$row['member_id']?></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="mb-hidden"><?=$row['phone']?></td>
+                        <td class="mb-hidden"><?=$row['created_at']?></td>
+                        <td><span class="status-badge <?=$row['status']?>"><?= $row['status'] === 'active' ? '활성' : '비활성' ?></span></td>
+                        <td>
+                            <div class="action-icons">
+                                <!-- <a href="#" title="포인트 관리"><i class="fa-solid fa-coins"></i></a>
+                                <a href="#" title="회원 관리"><i class="fa-solid fa-user-gear"></i></a> -->
+                            </div>
+                        </td>
+                    </tr>
+                    <? endforeach; ?>
+                </tbody>
+            </table>
+            <div class="empty-state" style="display: none">
+                <i class="fa-solid fa-search"></i>
+                <p>일치하는 항목 없음</p>
+            </div>
+        </div>
+        <div class="table-footer">
+            <span data-total-count></span>
+            <nav class="pagination" data-pagination-nav>
+                <!-- JavaScript will populate this -->
+            </nav>
+        </div>
+    </div>
+</section>

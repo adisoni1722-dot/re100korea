@@ -1,0 +1,288 @@
+<style>
+  .card {
+    background-color: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1.6rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(138, 0, 252, 0.1);
+  }
+
+  select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 12px;
+  }
+
+  .btn-full {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.7rem;
+    font-weight: 700;
+  }
+
+  /* 요약 영역 스타일 */
+  .transfer-summary {
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
+
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+
+  .summary-item:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  .summary-item__label {
+    color: var(--text-secondary);
+  }
+
+  .summary-item__value {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .summary-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 12px 0;
+  }
+
+  .summary-total .summary-item__label {
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .summary-total .summary-item__value {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 2rem;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    /* 버튼 사이 간격 */
+  }
+
+  .btn-secondary {
+    background-color: var(--bg-light);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .field-error {
+    color: #e74c3c;
+    font-size: 1.4rem;
+    margin-top: 4px;
+  }
+
+  .is-invalid {
+    border-color: #e74c3c !important;
+  }
+</style>
+<form id="withdrawal-form" action="/office/wallet/bank" method="POST">
+  <?= csrf_field() ?>
+  <div class="form-group">
+    <label for="bank_name" class="form-label">입금 은행</label>
+    <select id="bank_name" name="bank_name" class="form-control"
+      data-required="true" data-nice="입금 은행">
+      <option value="">은행을 선택하세요</option>
+      <option value="KB국민은행">KB국민은행</option>
+      <option value="신한은행">신한은행</option>
+      <option value="하나은행">하나은행</option>
+      <option value="우리은행">우리은행</option>
+      <option value="IBK기업은행">IBK기업은행</option>
+      <option value="카카오뱅크">카카오뱅크</option>
+      <option value="토스뱅크">토스뱅크</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="account_holder" class="form-label">예금주명</label>
+    <input type="text" id="account_holder" name="account_holder" class="form-control"
+      placeholder="입금받을 통장의 예금주명을 입력하세요"
+      data-required="true" data-minlength="2" data-maxlength="50"
+      data-nice="예금주명">
+  </div>
+
+  <div class="form-group">
+    <label for="account_number" class="form-label">계좌번호</label>
+    <input type="text" id="account_number" name="account_number" class="form-control"
+      placeholder="'-' 없이 숫자만 입력하세요"
+      data-required="true" data-minlength="6" data-maxlength="50"
+      data-nice="계좌번호">
+  </div>
+
+  <div class="form-group">
+    <label for="contact_number" class="form-label">연락처</label>
+    <input type="tel" id="contact_number" name="contact_number" class="form-control"
+      placeholder="'-' 없이 숫자만 입력하세요"
+      data-required="true" data-minlength="8" data-maxlength="20"
+      data-nice="연락처">
+  </div>
+
+  <div class="form-group">
+    <label for="amount" class="form-label">인출할 포인트</label>
+    <div class="input-group">
+      <input type="number" id="amount" name="amount" class="form-control"
+        placeholder="0"
+        data-required="true" data-type="number" data-min="10000" data-nice="인출 금액">
+    </div>
+  </div>
+
+
+  <div class="transfer-summary">
+    <div class="summary-item">
+      <span class="summary-item__label">인출 포인트</span>
+      <span id="amount-display" class="summary-item__value">0 P</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-item__label">인출 수수료 (P)</span>
+      <span id="fee-display" class="summary-item__value">0 P</span>
+    </div>
+    <hr class="summary-divider">
+    <div class="summary-item summary-total">
+      <span class="summary-item__label">실 입금액 (원)</span>
+      <span id="total-display" class="summary-item__value">0 원</span>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-secondary btn-full" onclick="history.back()">뒤로가기</button>
+    <button type="submit" class="btn-primary btn-full">인출 신청하기</button>
+  </div>
+</form>
+</div>
+
+<script>
+  // --- 설정 변수 ---
+  const withdrawalFee = 500;
+  const minWithdrawalAmount = 10000;
+  const POINT_TO_KRW_RATE = 1;
+
+  // --- DOM 요소 ---
+  const withdrawalForm = document.getElementById('withdrawal-form');
+  const bankSelect = document.getElementById('bank_name');
+  const accountHolderInput = document.getElementById('account_holder');
+  const accountNumberInput = document.getElementById('account_number');
+  const contactNumberInput = document.getElementById('contact_number');
+  const amountInput = document.getElementById('amount');
+
+  const amountDisplay = document.getElementById('amount-display');
+  const feeDisplay = document.getElementById('fee-display');
+  const totalDisplay = document.getElementById('total-display');
+
+  // --- 유틸리티 ---
+  function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function updateSummary() {
+    let amount = parseInt(amountInput.value, 10) || 0;
+    let currentFee = amount >= minWithdrawalAmount ? withdrawalFee : 0;
+    let finalDeposit = (amount - currentFee) * POINT_TO_KRW_RATE;
+    if (finalDeposit < 0) finalDeposit = 0;
+
+    amountDisplay.textContent = formatNumber(amount) + ' P';
+    feeDisplay.textContent = formatNumber(currentFee) + ' P';
+    totalDisplay.textContent = formatNumber(finalDeposit) + ' 원';
+  }
+
+  // --- 이벤트 바인딩 ---
+  amountInput.addEventListener('input', updateSummary);
+
+
+  withdrawalForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const bank = bankSelect.value.trim();
+    const holder = accountHolderInput.value.trim();
+    const account = accountNumberInput.value.trim();
+    const contact = contactNumberInput.value.trim();
+    const amount = parseInt(amountInput.value, 10) || 0;
+    const totalDeducted = amount + (amount >= minWithdrawalAmount ? withdrawalFee : 0);
+
+    if (bank === '') {
+      alert('입금 은행을 선택해주세요.');
+      bankSelect.focus();
+      return;
+    }
+    if (holder === '') {
+      alert('예금주명을 입력해주세요.');
+      accountHolderInput.focus();
+      return;
+    }
+    if (account === '') {
+      alert('계좌번호를 입력해주세요.');
+      accountNumberInput.focus();
+      return;
+    }
+    if (contact === '') {
+      alert('연락처를 입력해주세요.');
+      contactNumberInput.focus();
+      return;
+    }
+    if (amount < minWithdrawalAmount) {
+      alert(`최소 인출 금액은 ${formatNumber(minWithdrawalAmount)} P 입니다.`);
+      amountInput.focus();
+      return;
+    }
+    if (totalDeducted > userTotalPoints) {
+      alert('보유 포인트가 부족합니다. (수수료 포함)');
+      amountInput.focus();
+      return;
+    }
+
+    console.log('폼 검증 통과. 서버로 인출 요청 데이터를 전송합니다.');
+    withdrawalForm.submit();
+  });
+
+  // 초기 요약 표
+  updateSummary();
+</script>

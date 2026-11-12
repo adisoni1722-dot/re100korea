@@ -1,0 +1,294 @@
+/* ========================================================= */
+/* 공통 설정                                                   */
+/* ========================================================= */
+
+/* 테이블 설정 */
+#board  table {
+    width: auto !important; /* 혹은 100% */
+    border-collapse: collapse !important;
+    border: 1px solid #ddd !important;
+    margin: 10px 0 !important;
+}
+
+#board  table th,
+#board  table td {
+    border: 1px solid #ddd !important;
+    padding: 8px 10px !important;
+}
+
+#board  table th {
+    background-color: #f8f9fa !important;
+    font-weight: bold;
+}
+
+#board .content img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;          /* 제거하거나 무시됨 */
+    object-fit: cover;     /* 핵심: 비율 맞추며 꽉 채움 */
+
+    border-radius: 4px;
+    margin: 20px 0;
+    display: block;
+}
+
+
+#board embed,
+#board object,
+#board iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: 16 / 9;
+    height: auto !important;
+    display: block;
+    margin: 20px 0;
+    border: 0 !important;
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+/* ========================================================= */
+/* 파일 업로드 (기존 내용 유지 + 추가)                         */
+/* ========================================================= */
+#file {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#file .file-group {
+    border-top: 1px solid #eee; /* 색상 미세 조정 */
+    padding-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* 1. 기존 파일 목록 & 뷰 페이지 목록 공통 래퍼 */
+#file .existing-files-wrap {
+    margin-bottom: 30px;
+}
+
+#file .existing-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 12px;
+    display: flex; /* 아이콘 정렬 위해 flex 변경 */
+    align-items: center;
+}
+
+#file .existing-label i {
+    margin-right: 6px;
+    color: #f59e0b;
+    font-size: 16px;
+}
+
+/* 2. 업로드 박스 (스타일 유지) */
+#file .file-upload-container {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#file .upload-box {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    height: 70px;
+    background-color: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #64748b;
+    text-align: center !important;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+#file .upload-box:hover,
+#file .upload-box.drag-over {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+    color: #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+}
+
+#file .upload-box i {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+#file .text-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#file .upload-text {
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#file .upload-hint {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 2px;
+    white-space: nowrap;
+}
+
+#file .upload-hint::before {
+    content: '|';
+    margin-right: 10px;
+    color: #cbd5e1;
+}
+
+/* 3. 파일 리스트 그리드 (핵심) */
+#file .file-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2단 그리드 */
+    gap: 12px;
+    margin-top: 10px;
+}
+
+#file .file-item {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s;
+    text-decoration: none; /* 링크 밑줄 제거 */
+}
+
+#file .file-item:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+#file .icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+/* 아이콘 색상 (유지) */
+#file .icon-box.pdf { color: #e11d48; background-color: #fff1f2; }
+#file .icon-box.xls { color: #059669; background-color: #ecfdf5; }
+#file .icon-box.ppt { color: #ea580c; background-color: #fff7ed; }
+#file .icon-box.doc, #file .icon-box.hwp { color: #2563eb; background-color: #eff6ff; }
+#file .icon-box.img { color: #7c3aed; background-color: #f5f3ff; }
+#file .icon-box.zip { color: #d97706; background-color: #fffbeb; }
+#file .icon-box.txt { color: #475569; background-color: #f1f5f9; }
+#file .icon-box.default { color: #64748b; background-color: #f8fafc; }
+
+#file .file-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#file .file-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #334155;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+}
+/* a태그일 경우 호버 색상 변경 */
+a.file-name:hover {
+    color: #2563eb;
+}
+
+#file .file-size {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+/* 버튼 공통 (삭제/다운로드) */
+#file .btn-remove,
+#file .btn-download {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    color: #64748b; /* 기본 색상 통일 */
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-left: 10px;
+    flex-shrink: 0;
+    text-decoration: none; /* a태그일 경우 */
+}
+
+/* 삭제 버튼 호버 (빨강) */
+#file .btn-remove:hover {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+/* [추가됨] 다운로드 버튼 호버 (파랑) */
+#file .btn-download:hover {
+    background-color: #eff6ff;
+    color: #3b82f6;
+}
+
+
+/* ========================================================= */
+/* 신규 첨부파일 라벨 스타일                          */
+/* ========================================================= */
+#file .new-file-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 30px; /* 기존 파일 목록과의 간격 */
+}
+
+/* 신규 파일 아이콘 (파란색 +) */
+#file .new-file-label i {
+    color: #3b82f6;
+    font-size: 16px;
+    margin-right: 6px;
+}
+
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    #file .upload-box {
+        flex-direction: column !important;
+        height: auto;
+        padding: 15px 0;
+        gap: 5px;
+    }
+    #file .text-group {
+        flex-direction: column;
+        gap: 2px;
+    }
+    #file .upload-hint::before {
+        display: none;
+    }
+    #file .file-list {
+        grid-template-columns: 1fr; /* 모바일 1단 */
+    }
+}

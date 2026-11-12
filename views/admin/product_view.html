@@ -1,0 +1,313 @@
+<section class="main-section">
+  <div class="section-header">
+    <div>
+      <h2>상품 등록</h2>
+    </div>
+    <div class="page-actions">
+      <a href="/admin/product/list" class="btn btn-secondary">목록</a>
+      <button type="submit" form="productForm" class="btn btn-primary"><?= $product['product_id'] ?? false ? '저장' : '등록' ?></button>
+    </div>
+  </div>
+  <form action="/admin/product/save" id="productForm" accept-charset="utf-8" novalidate method="post" enctype="multipart/form-data">
+    <?= csrf_field() ?>
+
+    <? if ($product['product_id'] ?? false): ?>
+      <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+    <? endif; ?>
+
+    <div class="detail-layout">
+      <!-- Left Column: Main Product Info -->
+      <div class="card">
+        <h4 class="form-header">기본 등록 정보</h4>
+        <div class="form-group">
+          <label for="name">상품명</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="상품명을 입력하세요" value="<?= isset($product['name']) ? htmlspecialchars($product['name']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="slogan">슬로건</label>
+          <input type="text" id="slogan" name="slogan" class="form-control" placeholder="상품의 특징을 짧게 표현해보세요" value="<?= isset($product['slogan']) ? htmlspecialchars($product['slogan']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="price">시중가</label>
+          <input type="number" id="price" name="price" class="form-control" placeholder="0" value="<?= isset($product['price']) ? intval($product['price']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="discount_price">딜러가</label>
+          <input type="number" id="discount_price" name="discount_price" class="form-control" placeholder="0" value="<?= isset($product['discount_price']) ? intval($product['discount_price']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="delivery_fee">배송비</label>
+          <input type="number" id="delivery_fee" name="delivery_fee" class="form-control" placeholder="0" value="<?= isset($product['delivery_fee']) ? intval($product['delivery_fee']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="stock">재고</label>
+          <input type="number" id="stock" name="stock" class="form-control" placeholder="0" value="<?= isset($product['stock']) ? intval($product['stock']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="sku">상품 코드</label>
+          <input type="text" id="sku" name="sku" class="form-control" placeholder="상품 코드를 입력하세요" value="<?= isset($product['sku']) ? htmlspecialchars($product['sku']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="sku">상품 등록일</label>
+          <input type="text" id="created_at" name="created_at" class="form-control" placeholder="상품 등록일을 입력하세요" value="<?= isset($product['created_at']) ? htmlspecialchars($product['created_at']) : '' ?>">
+        </div>
+        <div class="form-group">
+          <label for="description">상품 설명</label>
+          <textarea id="description" name="description" class="form-control" placeholder="상품에 대한 자세한 설명을 입력하세요."><?= isset($product['description']) ? htmlspecialchars($product['description']) : '' ?></textarea>
+
+        </div>
+        <div class="form-actions">
+          <button type="submit" form="productForm" class="btn btn-primary">저장</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Images and Brand Info -->
+      <div>
+        <div class="card" style="margin-bottom: 24px">
+          <h4 class="form-header">상품 상태</h4>
+          <div class="form-group">
+            <select id="product-status" name="status" class="form-control">
+
+              <?
+              $status_options = [
+                'active'   => '판매중',
+                'soldout'  => '품절',
+                'dealer'   => '딜러판매용',
+                'inactive' => '판매중단',
+              ];
+
+              $current_status = $product['status'] ?? 'active';
+
+              foreach ($status_options as $value => $text) {
+                $selected = ($current_status === $value) ? 'selected' : '';
+                echo "<option value=\"{$value}\" {$selected}>{$text}</option>";
+              }
+              ?>
+            </select>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px">
+          <h4 class="form-header">상품 이미지</h4>
+          <div class="image-upload-wrapper">
+            <div class="image-upload-container has-label" id="imageContainer1">
+              <i class="fas fa-plus upload-icon"></i>
+              <img id="imagePreview1" src="" alt="대표 이미지" class="recipient-avatar" />
+              <button type="button" class="remove-image-button" data-field="image_main" data-product-id="<?= isset($product['product_id']) ? $product['product_id'] : '' ?>"><i class="fas fa-times"></i></button>
+              <input type="file" id="imageUpload1" class="image-upload-input" accept="image/*" name="image_main" />
+              <span class="image-label">대표 이미지</span>
+            </div>
+            <div class="image-upload-container has-label" id="imageContainer2">
+              <i class="fas fa-plus upload-icon"></i>
+              <img id="imagePreview2" src="" alt="상품 이미지 1" class="recipient-avatar" />
+              <button type="button" class="remove-image-button" data-field="image_sub1" data-product-id="<?= isset($product['product_id']) ? $product['product_id'] : '' ?>"><i class="fas fa-times"></i></button>
+              <input type="file" id="imageUpload2" class="image-upload-input" accept="image/*" name="image_sub1" />
+              <span class="image-label">이미지-1</span>
+            </div>
+            <div class="image-upload-container has-label" id="imageContainer3">
+              <i class="fas fa-plus upload-icon"></i>
+              <img id="imagePreview3" src="" alt="상품 이미지 2" class="recipient-avatar" />
+              <button type="button" class="remove-image-button" data-field="image_sub2" data-product-id="<?= isset($product['product_id']) ? $product['product_id'] : '' ?>"><i class="fas fa-times"></i></button>
+              <input type="file" id="imageUpload3" class="image-upload-input" accept="image/*" name="image_sub2" />
+              <span class="image-label">이미지-2</span>
+            </div>
+            <div class="image-upload-container has-label" id="imageContainer4">
+              <i class="fas fa-plus upload-icon"></i>
+              <img id="imagePreview4" src="" alt="상품 이미지 3" class="recipient-avatar" />
+              <button type="button" class="remove-image-button" data-field="image_sub3" data-product-id="<?= isset($product['product_id']) ? $product['product_id'] : '' ?>"><i class="fas fa-times"></i></button>
+              <input type="file" id="imageUpload4" class="image-upload-input" accept="image/*" name="image_sub3" />
+              <span class="image-label">이미지-3</span>
+            </div>
+            <div class="image-upload-container has-label" id="imageContainer5">
+              <i class="fas fa-plus upload-icon"></i>
+              <img id="imagePreview5" src="" alt="상세 이미지" class="recipient-avatar" />
+              <button type="button" class="remove-image-button" data-field="image_detail" data-product-id="<?= isset($product['product_id']) ? $product['product_id'] : '' ?>"><i class="fas fa-times"></i></button>
+              <input type="file" id="imageUpload5" class="image-upload-input" accept="image/*" name="image_detail" />
+              <span class="image-label">상세 이미지</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 class="form-header">브랜드 및 모델 정보</h4>
+          <div class="form-group">
+            <label for="brand">브랜드</label>
+            <input type="text" id="brand" name="brand" class="form-control" placeholder="브랜드를 입력하세요" value="<?= isset($product['brand']) ? $product['brand'] : '' ?>">
+          </div>
+          <div class="form-group">
+            <label for="maker">제조사</label>
+            <input type="text" id="maker" name="maker" class="form-control" placeholder="제조사를 입력하세요" value="<?= isset($product['maker']) ? $product['maker'] : '' ?>">
+          </div>
+          <div class="form-group">
+            <label for="model">모델명</label>
+            <input type="text" id="model" name="model" class="form-control" placeholder="모델명을 입력하세요" value="<?= isset($product['model']) ? $product['model'] : '' ?>">
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <a href="/admin/product/list" class="btn btn-secondary">목록</a>
+          <button type="submit" form="productForm" class="btn btn-primary"> <?= $product_id ? '저장' : '등록' ?></button>
+          <? if (isset($product['product_id']) && $product['product_id']): ?>
+
+            <button
+              type="button"
+              class="btn btn-danger-outline"
+              data-modal-type="confirm"
+              data-message="정말 삭제하시겠습니까? [복구불가]"
+              data-action="/admin/product/delete/<?= $product['product_id']; ?>">
+              삭제
+            </button>
+
+          <? endif; ?>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- 이미지 처리 스크립트 ---
+    const existingImages = [
+      "<?= isset($product['image_main']) ? $product['image_main'] : '' ?>",
+      "<?= isset($product['image_sub1']) ? $product['image_sub1'] : '' ?>",
+      "<?= isset($product['image_sub2']) ? $product['image_sub2'] : '' ?>",
+      "<?= isset($product['image_sub3']) ? $product['image_sub3'] : '' ?>",
+      "<?= isset($product['image_detail']) ? $product['image_detail'] : '' ?>",
+    ];
+
+    const containers = document.querySelectorAll('.image-upload-container');
+    const form = document.getElementById('productForm');
+
+    containers.forEach((container, index) => {
+      const imagePreview = container.querySelector('.recipient-avatar');
+      const fileInput = container.querySelector('.image-upload-input');
+      const removeButton = container.querySelector('.remove-image-button');
+
+      if (existingImages[index]) {
+        imagePreview.src = existingImages[index];
+        imagePreview.classList.add('visible');
+        container.classList.add('has-image');
+      }
+
+      container.addEventListener('click', (e) => {
+        if (e.target.closest('.remove-image-button')) return;
+        if (!container.classList.contains('has-image')) {
+          fileInput.click();
+        }
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreview.classList.add('visible');
+            container.classList.add('has-image');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+
+    function removeImageUI(container) {
+      const imagePreview = container.querySelector('.recipient-avatar');
+      const fileInput = container.querySelector('.image-upload-input');
+      imagePreview.src = '';
+      imagePreview.classList.remove('visible');
+      container.classList.remove('has-image');
+      fileInput.value = null;
+    }
+
+    form.addEventListener('submit', function(event) {
+      const productName = document.querySelector('input[name="name"]').value.trim();
+      const productSlogan = document.querySelector('input[name="slogan"]').value.trim();
+      const productPrice = document.querySelector('input[name="price"]').value.trim();
+      const productdisPrice = document.querySelector('input[name="discount_price"]').value.trim();
+
+      if (productName === '') {
+        window.alert('상품명을 입력해주세요.');
+        document.querySelector('input[name="name"]').focus();
+        event.preventDefault();
+        return;
+      }
+      if (productSlogan === '') {
+        window.alert('슬로건을 입력해주세요.');
+        document.querySelector('input[name="slogan"]').focus();
+        event.preventDefault();
+        return;
+      }
+      if (productPrice === '' || isNaN(productPrice)) {
+        window.alert('시중가 가격을 입력해주세요.');
+        document.querySelector('input[name="price"]').focus();
+        event.preventDefault();
+        return;
+      }
+
+      if (productdisPrice === '' || isNaN(productdisPrice)) {
+        window.alert('딜러가 가격을 입력해주세요.');
+        document.querySelector('input[name="discount_price"]').focus();
+        event.preventDefault();
+        return;
+      }
+    });
+
+    const csrfTokenName = '<?= csrf_token_name(); ?>';
+    const csrfTokenInput = document.getElementById('csrf_token');
+    let csrfHash = csrfTokenInput ? csrfTokenInput.value : '';
+
+    document.querySelectorAll('.remove-image-button').forEach((button) => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const field = this.dataset.field;
+        const productId = this.dataset.productId;
+        const container = this.closest('.image-upload-container');
+
+        if (!productId) {
+          // 새 상품 등록 시 (product_id가 없음)
+          removeImageUI(container);
+          return;
+        }
+
+        Modal.confirm('이미지를 삭제하시겠습니까? [복구불가]', () => {
+          const currentTokenInput = document.querySelector(`input[name="${csrfTokenName}"]`);
+          const currentToken = currentTokenInput ? currentTokenInput.value : csrfHash;
+
+          fetch('/admin/product/delete_image', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              [csrfTokenName]: csrfHash,
+              body: JSON.stringify({
+                product_id: productId,
+                field: field,
+                [csrfTokenName]: currentToken,
+              }),
+            })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data[csrfTokenName]) {
+                csrfHash = data[csrfTokenName];
+                if (csrfTokenInput) {
+                  csrfTokenInput.value = csrfHash; // id로 찾아서 갱신
+                }
+              }
+              if (data.success) {
+                removeImageUI(container);
+              } else {
+                Modal.alert('삭제 실패: ' + data.message);
+              }
+            })
+            .catch((error) => {
+              console.error('Request failed:', error);
+              Modal.alert('요청 처리 중 오류가 발생했습니다.');
+            });
+        });
+      });
+    });
+  });
+</script>

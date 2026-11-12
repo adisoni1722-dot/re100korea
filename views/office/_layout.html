@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이오피스 - <?= $header['title'] ?? '' ?></title>
+  <?= load_asset('/assets/css/common.css') ?>
+  <?= load_asset('css/layout.css') ?>
+  <?= load_asset('css/auto') ?>
+</head>
+
+<body>
+  <div id="sidebar-overlay" class="overlay"></div>
+  <header class="header">
+    <div class="unit">
+      <div class="header__content">
+        <a href="/office" aria-label="홈으로">
+          <img src="/assets/images/logo.svg?ver=<?= ver() ?>" class="header__logo" alt="서비스 로고" />
+        </a>
+        <div class="header__right-group">
+
+          <div class="header__actions">
+            <a href="/member/logout" class="sidebar__link">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <span>로그아웃</span>
+            </a>
+          </div>
+
+          <button id="hamburger-button" class="header__hamburger" aria-label="메뉴 열기">
+            <svg viewBox="0 0 100 80">
+              <rect width="100" height="15" rx="8"></rect>
+              <rect y="30" width="100" height="15" rx="8"></rect>
+              <rect y="60" width="100" height="15" rx="8"></rect>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="unit">
+      <div class="office-container">
+        <aside id="office-sidebar" class="page__sidebar sidebar">
+          <nav class="sidebar__nav">
+            <ul class="sidebar__list">
+              <li class="sidebar__item">
+                <a href="/office" class="sidebar__link sidebar__link--is-active">
+                  <i class="fa-regular fa-clipboard"></i>
+                  <span>대시 보드</span>
+                </a>
+              </li>
+              <li class="sidebar__item">
+                <a href="/office/product" class="sidebar__link">
+                  <i class="fa-solid fa-receipt"></i>
+                  <span><?= ORDER ?></span>
+                </a>
+              </li>
+              <li class="sidebar__item">
+                <a href="/office/order" class="sidebar__link">
+                  <i class="fa-regular fa-id-badge"></i>
+                  <span><?= ORDER_LIST ?></span>
+                </a>
+              </li>
+              <li class="sidebar__item">
+                <a href="/office/wallet" class="sidebar__link">
+                  <i class="fa-solid fa-wallet"></i>
+                  <span><?= WALLET ?></span>
+                </a>
+              </li>
+              <li class="sidebar__divider" aria-hidden="true"></li>
+              <? if (session('level') === 10) { ?>
+                <li class="sidebar__item">
+                  <a href="/admin" class="sidebar__link">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>관리자</span>
+                  </a>
+                </li>
+              <? } ?>
+
+              <li class="sidebar__divider" aria-hidden="true"></li>
+              <li class="sidebar__item">
+                <a href="/" class="sidebar__link">
+                  <i class="fa-solid fa-house"></i>
+                  <span>웹사이트</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+
+        <section class="page__content">
+          <?
+          $pending_payment_count = 0; // <-- 테스트용 예시 변수
+          ?>
+
+          <? if (isset($header['group']) && $header['group'] !== 'main') { ?>
+            <div class="info-box">
+              <div class="info-box__section">
+                <div class="info-box__title">
+                  <h1 class="font-b-md"><?= $header['title'] ?? '' ?></h1>
+                </div>
+              </div>
+              <div class="info-box__assets">
+                <? if (
+                  isset($pending_payment_count) && $pending_payment_count >
+                  0
+                ): ?>
+                  <span class="font-b-sm b700">결제 대기중</span>
+                  <span class="info-box__badge"><?= $pending_payment_count ?></span>
+                <? else: ?>
+                  <span class="info-box__label">보유</span>
+                  <span class="info-box__amount"><?= context('get_balance_format') ?><span class="info-box__unit">P</span></span>
+                <? endif; ?>
+              </div>
+            </div>
+          <? } else { ?>
+            <div class="info-box">
+              <div class="info-box__section">
+                <div class="info-box__title">
+                  <h1 class="font-b-md">대시보드</h1>
+                </div>
+              </div>
+              <div class="info-box__assets">
+                <? if (
+                  isset($pending_payment_count) && $pending_payment_count >
+                  0
+                ): ?>
+                  <span class="font-b-sm b700">결제 대기중</span>
+                  <span class="info-box__badge"><?= $pending_payment_count ?></span>
+                <? else: ?>
+                  <span class="font-b-sm b700"><?= session('name') ?>님 안녕하세요</span>
+                <? endif; ?>
+              </div>
+            </div>
+          <? } ?>
+
+          <?= $this->slot('content') ?>
+        </section>
+      </div>
+    </div>
+    <div class="gap"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="unit">
+      <div class="footer__content">
+        <p class="footer__copyright">
+          &copy; 2025
+          <?= SITE_NAME_EN ?>. All Rights Reserved.
+        </p>
+        <nav class="footer__nav">
+          <a href="/privacy" class="footer__link">개인정보처리방침</a>
+          <a href="/terms" class="footer__link">이용약관</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <?= load_asset('js/office.js') ?>
+  <?= load_asset('js/modal.js') ?>
+</body>
+
+</html>

@@ -1,0 +1,776 @@
+@charset "UTF-8";
+/* ==============================================
+*  Common 공통
+* ============================================== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url("/assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+}
+/* ==============================================
+*  :root CSS 변수
+* ============================================== */
+:root {
+  /* 폰트 */
+  --font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+      "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-eng: "Inter", sans-serif;
+  /* 브레이크포인트 (SCSS 변수값을 사용하여 CSS 변수를 정의) */
+  --breakpoint-mobile: 768px;
+  --breakpoint-desktop: 1440px;
+}
+
+/* ==============================================
+*  리셋
+* ============================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, ul, ol, dl, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, main {
+  display: block;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+img, picture, video, canvas, svg {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+html {
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  font-size: 62.5%;
+}
+
+body {
+  text-rendering: optimizeSpeed;
+  min-height: 100vh;
+  word-break: keep-all;
+  word-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  font-family: var(--font-family);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* ==============================================
+*  Unit
+* ============================================== */
+.unit, .unit--sm, .unit--xl, .unit--full {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.unit {
+  max-width: 1440px;
+}
+
+.unit--sm {
+  max-width: 780px;
+}
+
+.unit--xl {
+  max-width: 1780px;
+}
+
+.unit--full {
+  max-width: 100%;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .unit--full {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+/* ==============================================
+*  선, 간격, 스크롤
+* ============================================== */
+.no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.line {
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.gap {
+  margin-top: 100px;
+}
+
+@media (max-width: 768px) {
+  .gap {
+    margin-top: 30px;
+  }
+}
+.no-scroll {
+  overflow: hidden !important;
+}
+
+/* ==============================================
+*  반응형 표시
+* ============================================== */
+.only-mb {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .only-mb {
+    display: block !important;
+  }
+}
+.only-pc {
+  display: block;
+}
+
+@media (min-width: calc(768px + 1px)) {
+  .only-pc {
+    display: none;
+  }
+}
+.br-mb {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .br-mb {
+    display: inline;
+  }
+}
+/* ==============================================
+*  로케이션
+* ============================================== */
+.location ul {
+  display: flex;
+  flex-direction: row;
+}
+
+.location ul li + li::before {
+  content: "/";
+  font-weight: 600;
+  margin: 0 6px;
+}
+
+.location ul li a {
+  text-transform: uppercase;
+  color: #777;
+}
+
+/* ==============================================
+*  컬러 유틸리티
+* ============================================== */
+.text-primary {
+  color: var(--primary);
+}
+
+.text-main {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.white {
+  color: var(--white);
+}
+
+.black {
+  color: black;
+}
+
+.red {
+  color: #e72116;
+}
+
+.gray {
+  color: #7f7f7f;
+}
+
+.showdow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* ==============================================
+*  오버레이
+* ============================================== */
+.main-overlay.show {
+  transition: all 400ms ease;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  z-index: 1;
+}
+
+/* ==============================================
+*  커버
+* ============================================== */
+video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.bg-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
+}
+
+.bg-contain {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* ==============================================
+*  높이
+* ============================================== */
+.screen {
+  height: calc(var(--vh, 1vh) * 100) !important;
+}
+
+.hv-100 {
+  height: 100vh;
+}
+
+@media (max-width: 1440px) {
+  .hv-100 {
+    height: 60vh;
+  }
+}
+/* ==============================================
+* 여백 유틸 (0~100px, 10px 단위) 자동 생성
+* ============================================== */
+@media (min-width: 0px) {
+  .mt-0 {
+    margin-top: 0px !important;
+  }
+  .pt-0 {
+    padding-top: 0px !important;
+  }
+  .mt-10 {
+    margin-top: 10px !important;
+  }
+  .pt-10 {
+    padding-top: 10px !important;
+  }
+  .mt-20 {
+    margin-top: 20px !important;
+  }
+  .pt-20 {
+    padding-top: 20px !important;
+  }
+  .mt-30 {
+    margin-top: 30px !important;
+  }
+  .pt-30 {
+    padding-top: 30px !important;
+  }
+  .mt-40 {
+    margin-top: 40px !important;
+  }
+  .pt-40 {
+    padding-top: 40px !important;
+  }
+  .mt-50 {
+    margin-top: 50px !important;
+  }
+  .pt-50 {
+    padding-top: 50px !important;
+  }
+  .mt-60 {
+    margin-top: 60px !important;
+  }
+  .pt-60 {
+    padding-top: 60px !important;
+  }
+  .mt-70 {
+    margin-top: 70px !important;
+  }
+  .pt-70 {
+    padding-top: 70px !important;
+  }
+  .mt-80 {
+    margin-top: 80px !important;
+  }
+  .pt-80 {
+    padding-top: 80px !important;
+  }
+  .mt-90 {
+    margin-top: 90px !important;
+  }
+  .pt-90 {
+    padding-top: 90px !important;
+  }
+  .mt-100 {
+    margin-top: 100px !important;
+  }
+  .pt-100 {
+    padding-top: 100px !important;
+  }
+  .mb-0 {
+    margin-bottom: 0px !important;
+  }
+  .pb-0 {
+    padding-bottom: 0px !important;
+  }
+  .mb-10 {
+    margin-bottom: 10px !important;
+  }
+  .pb-10 {
+    padding-bottom: 10px !important;
+  }
+  .mb-20 {
+    margin-bottom: 20px !important;
+  }
+  .pb-20 {
+    padding-bottom: 20px !important;
+  }
+  .mb-30 {
+    margin-bottom: 30px !important;
+  }
+  .pb-30 {
+    padding-bottom: 30px !important;
+  }
+  .mb-40 {
+    margin-bottom: 40px !important;
+  }
+  .pb-40 {
+    padding-bottom: 40px !important;
+  }
+  .mb-50 {
+    margin-bottom: 50px !important;
+  }
+  .pb-50 {
+    padding-bottom: 50px !important;
+  }
+  .mb-60 {
+    margin-bottom: 60px !important;
+  }
+  .pb-60 {
+    padding-bottom: 60px !important;
+  }
+  .mb-70 {
+    margin-bottom: 70px !important;
+  }
+  .pb-70 {
+    padding-bottom: 70px !important;
+  }
+  .mb-80 {
+    margin-bottom: 80px !important;
+  }
+  .pb-80 {
+    padding-bottom: 80px !important;
+  }
+  .mb-90 {
+    margin-bottom: 90px !important;
+  }
+  .pb-90 {
+    padding-bottom: 90px !important;
+  }
+  .mb-100 {
+    margin-bottom: 100px !important;
+  }
+  .pb-100 {
+    padding-bottom: 100px !important;
+  }
+  .ml-0 {
+    margin-left: 0px !important;
+  }
+  .pl-0 {
+    padding-left: 0px !important;
+  }
+  .ml-10 {
+    margin-left: 10px !important;
+  }
+  .pl-10 {
+    padding-left: 10px !important;
+  }
+  .ml-20 {
+    margin-left: 20px !important;
+  }
+  .pl-20 {
+    padding-left: 20px !important;
+  }
+  .ml-30 {
+    margin-left: 30px !important;
+  }
+  .pl-30 {
+    padding-left: 30px !important;
+  }
+  .ml-40 {
+    margin-left: 40px !important;
+  }
+  .pl-40 {
+    padding-left: 40px !important;
+  }
+  .ml-50 {
+    margin-left: 50px !important;
+  }
+  .pl-50 {
+    padding-left: 50px !important;
+  }
+  .ml-60 {
+    margin-left: 60px !important;
+  }
+  .pl-60 {
+    padding-left: 60px !important;
+  }
+  .ml-70 {
+    margin-left: 70px !important;
+  }
+  .pl-70 {
+    padding-left: 70px !important;
+  }
+  .ml-80 {
+    margin-left: 80px !important;
+  }
+  .pl-80 {
+    padding-left: 80px !important;
+  }
+  .ml-90 {
+    margin-left: 90px !important;
+  }
+  .pl-90 {
+    padding-left: 90px !important;
+  }
+  .ml-100 {
+    margin-left: 100px !important;
+  }
+  .pl-100 {
+    padding-left: 100px !important;
+  }
+  .mr-0 {
+    margin-right: 0px !important;
+  }
+  .pr-0 {
+    padding-right: 0px !important;
+  }
+  .mr-10 {
+    margin-right: 10px !important;
+  }
+  .pr-10 {
+    padding-right: 10px !important;
+  }
+  .mr-20 {
+    margin-right: 20px !important;
+  }
+  .pr-20 {
+    padding-right: 20px !important;
+  }
+  .mr-30 {
+    margin-right: 30px !important;
+  }
+  .pr-30 {
+    padding-right: 30px !important;
+  }
+  .mr-40 {
+    margin-right: 40px !important;
+  }
+  .pr-40 {
+    padding-right: 40px !important;
+  }
+  .mr-50 {
+    margin-right: 50px !important;
+  }
+  .pr-50 {
+    padding-right: 50px !important;
+  }
+  .mr-60 {
+    margin-right: 60px !important;
+  }
+  .pr-60 {
+    padding-right: 60px !important;
+  }
+  .mr-70 {
+    margin-right: 70px !important;
+  }
+  .pr-70 {
+    padding-right: 70px !important;
+  }
+  .mr-80 {
+    margin-right: 80px !important;
+  }
+  .pr-80 {
+    padding-right: 80px !important;
+  }
+  .mr-90 {
+    margin-right: 90px !important;
+  }
+  .pr-90 {
+    padding-right: 90px !important;
+  }
+  .mr-100 {
+    margin-right: 100px !important;
+  }
+  .pr-100 {
+    padding-right: 100px !important;
+  }
+}
+/* ==============================================
+*  Font Weight 유틸 (100~900)
+* ============================================== */
+.b100 {
+  font-weight: 100 !important;
+}
+
+.b200 {
+  font-weight: 200 !important;
+}
+
+.b300 {
+  font-weight: 300 !important;
+}
+
+.b400 {
+  font-weight: 400 !important;
+}
+
+.b500 {
+  font-weight: 500 !important;
+}
+
+.b600 {
+  font-weight: 600 !important;
+}
+
+.b700 {
+  font-weight: 700 !important;
+}
+
+.b800 {
+  font-weight: 800 !important;
+}
+
+.b900 {
+  font-weight: 900 !important;
+}
+
+/* ==============================================
+*  Font Size 유틸 (모바일+데스크탑)
+* ============================================== */
+.font-d-xl {
+  font-size: 6.2rem !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.01em !important;
+}
+
+@media (min-width: 768px) {
+  .font-d-xl {
+    font-size: 12.8rem !important;
+    line-height: 1.1 !important;
+  }
+}
+.font-d-lg {
+  font-size: 5.4rem !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.01em !important;
+}
+
+@media (min-width: 768px) {
+  .font-d-lg {
+    font-size: 9.6rem !important;
+    line-height: 1.1 !important;
+  }
+}
+.font-t-xl {
+  font-size: 4.2rem !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.01em !important;
+}
+
+@media (min-width: 768px) {
+  .font-t-xl {
+    font-size: 7.2rem !important;
+    line-height: 1.1 !important;
+  }
+}
+.font-t-lg {
+  font-size: 3.4rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.01em !important;
+}
+
+@media (min-width: 768px) {
+  .font-t-lg {
+    font-size: 5.6rem !important;
+    line-height: 1.3 !important;
+  }
+}
+.font-t-md {
+  font-size: 3.2rem !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 768px) {
+  .font-t-md {
+    font-size: 4.8rem !important;
+    line-height: 1.3 !important;
+  }
+}
+.font-t-sm {
+  font-size: 2.4rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 768px) {
+  .font-t-sm {
+    font-size: 3.6rem !important;
+    line-height: 1.4 !important;
+  }
+}
+.font-b-xl {
+  font-size: 2.2rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 768px) {
+  .font-b-xl {
+    font-size: 3.2rem !important;
+    line-height: 1.4 !important;
+  }
+}
+.font-b-lg {
+  font-size: 2rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (min-width: 768px) {
+  .font-b-lg {
+    font-size: 2.4rem !important;
+    line-height: 1.4 !important;
+  }
+}
+.font-b-md {
+  font-size: 1.8rem !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0em !important;
+}
+
+@media (min-width: 768px) {
+  .font-b-md {
+    font-size: 2.1rem !important;
+    line-height: 1.6 !important;
+  }
+}
+.font-b-sm {
+  font-size: 1.6rem !important;
+  line-height: 1.7 !important;
+  letter-spacing: 0em !important;
+}
+
+@media (min-width: 768px) {
+  .font-b-sm {
+    font-size: 1.7rem !important;
+    line-height: 1.5 !important;
+  }
+}
+.font-c-md {
+  font-size: 1.4rem !important;
+  line-height: 1.6 !important;
+  letter-spacing: 0em !important;
+}
+
+.font-c-sm {
+  font-size: 1.2rem !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* ==============================================
+*  그리드
+* ============================================== */
+.unit-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .unit-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+@media (min-width: 1440px) {
+  .unit-grid {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  }
+}

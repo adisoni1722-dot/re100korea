@@ -1,0 +1,35 @@
+<? $this->extend('_layout') ?>
+
+<? $this->section('title') ?>
+   주요 제품
+<? $this->endSection() ?>
+
+<? $this->section('content') ?>
+<div class="product mt-50 mb-50">
+    <div class="unit">
+        <div class="title-box">
+            <span class="title-box-tit ani-on">주요 제품</span>
+        </div>
+
+        <div class="unit-grid ani-on" data-card data-delay="300">
+            <? foreach ($product as $row): ?>
+            <div class="grid card-ani">
+                <div class="image-box img-hover">
+                    <a href="/shop/product/item/<?=$row['product_id']?>"><img src="<?=image_path($row['image_main']); ?>" /></a>
+                </div>
+                <div class="image-box-inner">
+                    <span class="image-box-title font-b-md b600">
+                        <?=$row['name']?>
+                    </span>
+                    <span class="image-box-desc">
+                        <span class="gray b600"> <?=$row['slogan']?></span>
+                    </span>
+                    <div class="image-box-price font-b-sm b600">₩ <?=number_format($row['price'],0)?> 원</div>
+                </div>
+            </div>
+            <? endforeach; ?>
+        </div>
+    </div>
+</div>
+<div class="line"></div>
+<? $this->endSection() ?>

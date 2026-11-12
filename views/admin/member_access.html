@@ -1,0 +1,58 @@
+<section class="main-section">
+    <div class="section-header">
+        <h2><?= $header['title'] ?? '' ?></h2>
+
+    </div>
+
+    <div class="card" data-table-interactive>
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" data-search-input placeholder="이름, 아이디..." novalidate />
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="list-table">
+                <thead>
+                    <tr>
+                        <th data-sort data-search>접속자<i class="sort-icon"></i></th>
+                        <th class="mb-hidden">접속 페이지</th>
+                        <th class="mb-hidden">접속기기</th>
+                        <th>접속일<i class="sort-icon"></i></th>
+                    </tr>
+                </thead>
+                <tbody data-table-body>
+                    <? foreach ($log as $row): ?>
+                    <tr>
+                        <td>
+                            <div class="table-info">
+                                <div class="avatar"><?=is_avatar($row['member_id'])?></div>
+                                <div>
+                                    <div class="member-email"><?=$row['member_id']?></div>
+                                    <div class="member-name"><?=$row['name']?></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="mb-hidden"><?=$row['uri']?></td>
+                        <td class="mb-hidden b600"><?=$row['browser']?></td>
+                        <td><?=$row['created_at']?></td>
+
+
+                    </tr>
+                    <? endforeach; ?>
+                </tbody>
+            </table>
+            <div class="empty-state" style="display: none">
+                <i class="fa-solid fa-search"></i>
+                <p>일치하는 항목 없음</p>
+            </div>
+        </div>
+        <div class="table-footer">
+            <span data-total-count></span>
+            <nav class="pagination" data-pagination-nav>
+                <!-- JavaScript will populate this -->
+            </nav>
+        </div>
+    </div>
+</section>

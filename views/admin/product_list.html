@@ -1,0 +1,65 @@
+<section class="main-section">
+  <div class="section-header">
+    <h2><?= $header['title'] ?? '' ?></h2>
+    <a href="/admin/product/view" class="btn btn-primary">
+      <i class="fa-solid fa-plus"></i>
+      상품등록
+    </a>
+  </div>
+
+  <div class="card" data-table-interactive>
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" data-search-input placeholder="상품명 검색..." novalidate />
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="list-table">
+        <thead>
+          <tr>
+            <th>이미지<i class="sort-icon"></i></th>
+            <th class="mb-hidden" data-sort data-search>이름<i class="sort-icon"></i></th>
+            <th class="mb-hidden" data-sort data-sort-type="date">등록일<i class="sort-icon"></i></th>
+            <th  data-sort>상태</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody data-table-body>
+          <? foreach ($product as $row): ?>
+          <tr data-href="/admin/product/view/<?=$row['product_id']?>">
+            <td>
+              <div class="table-info">
+                <img src="<?= image_path($row['image_main']); ?>" alt="<?= htmlspecialchars($row['name']); ?> 이미지" class="product-card__image" />
+                <div>
+                  <div class="member-name"><?= $row['discount_price_format'] ?>원</div>
+                  <div class="member-email">
+                    <del><?= $row['price_format'] ?></del>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="mb-hidden b700"><?=$row['name']?></td>
+            <td class="mb-hidden"><?=$row['created_at']?></td>
+            <td><span class="status-badge active">활성</span></td>
+            <td>
+              <a href="#" class="btn-action"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+            </td>
+          </tr>
+          <? endforeach; ?>
+        </tbody>
+      </table>
+      <div class="empty-state" style="display: none">
+        <i class="fa-solid fa-search"></i>
+        <p>일치하는 항목 없음</p>
+      </div>
+    </div>
+    <div class="table-footer">
+      <span data-total-count></span>
+      <nav class="pagination" data-pagination-nav>
+        <!-- JavaScript will populate this -->
+      </nav>
+    </div>
+  </div>
+</section>

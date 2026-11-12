@@ -1,0 +1,217 @@
+<!-- Content Wrapper -->
+<section class="main-section">
+    <div class="section-header">
+        <h2><?=$header['title'] ?? ''?></h2>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="unit-grid">
+            <div class="grid">
+                <div class="card progress-card">
+                    <div class="progress-card-info">
+                        <div class="card-title">포인트 유통량 (총계)</div>
+                        <p class="card-value">
+                            <?=number_format($total_point)?>
+                            / 10,000,000 P
+                        </p>
+                    </div>
+                    <div class="progress-indicator">
+                        <svg width="80" height="80" viewBox="0 0 80 80">
+                            <circle class="progress-bg" cx="40" cy="40" r="36"></circle>
+                            <circle
+                                id="supply-progress"
+                                class="progress-bar"
+                                cx="40"
+                                cy="40"
+                                r="36"
+                                style="stroke-dashoffset: 135.6"
+                            ></circle>
+                        </svg>
+                        <span class="progress-text">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <!-- 인포 -->
+                <div class="card info-list-card">
+                    <div class="info-item">
+                        <div class="item-label"><i class="fa-solid fa-wallet"></i>오늘의 매출</div>
+                        <div class="item-value">0 원</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="item-label"><i class="fa-solid fa-landmark"></i>인출대기</div>
+                        <div class="item-value">0 원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-grid">
+            <div class="grid">
+                <!-- Large Chart Card -->
+                <div class="card large-chart-card">
+                    <div class="card-title">최근(월) 비율 <span class="card-icon">%</span></div>
+                    <p class="card-value"><?=$monthly_sales_percent?>%</p>
+                    <div class="chart-container">
+                        <canvas id="apyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="unit-grid stat-group-card">
+                    <div class="grid">
+                        <!-- 통계 -->
+                        <div class="card stat-card">
+                            <div class="card-title">총 매출액 <span class="card-icon">원</span></div>
+                            <p class="card-value">
+                                <?=number_format($total_in)?>
+                                원
+                            </p>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="card-title">가입 회원수 <i class="fa-solid fa-arrow-trend-up card-icon"></i></div>
+                            <p class="card-value">
+                                <?=$total_members?>
+                                명
+                            </p>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="card stat-card">
+                            <div class="card-title">총 지급수당</div>
+                            <p class="card-value">
+                                <?=number_format($total_bonus)?>
+                                원
+                            </p>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="card-title">총 인출액 <i class="fa-solid fa-circle-info card-icon"></i></div>
+                            <p class="card-value">
+                                <?=number_format($total_withdraw)?>
+                                원
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?=load_asset('js/chart.js')?>
+
+
+<script>
+  const monthlyData = <?=json_encode($monthly_data, JSON_NUMERIC_CHECK)?>;
+      console.log('월별 매출 데이터:', monthlyData);
+        document.addEventListener('DOMContentLoaded', () => {
+        // --- Theme Handling for standalone view ---
+        const applyTheme = (theme) => {
+            document.documentElement.setAttribute('data-theme', theme);
+        };
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        // --- APY Chart ---
+        const ctx = document.getElementById('apyChart').getContext('2d');
+        // 테마에 따라 차트 색상 동적 적용
+        function getChartColors(theme) {
+            if (theme === 'dark') {
+                return {
+                    bg: 'rgba(0, 0, 0, 0.8)',
+                    border: 'rgba(0, 0, 0, 0.1)',
+                    grid: 'rgba(0, 0, 0, 0.1)',
+                    ticks: 'rgba(0, 0, 0, 0.7)',
+                };
+            } else {
+                return {
+                    bg: 'rgba(255,255,255,25)',
+                    border: 'rgba(255,255,255,1)',
+                    grid: 'rgba(255,255,255,0.1)',
+                    ticks: 'rgba(255,255,255,0.7)',
+                };
+            }
+        }
+        let apyChart = null;
+        function renderApyChart(theme) {
+            const colors = getChartColors(theme);
+            const ctx = document.getElementById('apyChart').getContext('2d');
+            if (apyChart) {
+                apyChart.destroy();
+            }
+            apyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    datasets: [
+                        {
+                            label: '매출 변동 내역',
+                            data: monthlyData,
+                            backgroundColor: colors.bg,
+                            borderColor: colors.border,
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            barThickness: 12,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false,
+                                color: colors.grid,
+                            },
+                            ticks: {
+                                color: colors.ticks,
+                            },
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                            ticks: {
+                                display: false,
+                            },
+                        },
+                    },
+                },
+            });
+        }
+
+        // 최초 렌더
+        let chartTheme = localStorage.getItem('theme') || 'light';
+        renderApyChart(chartTheme);
+
+        // 테마 변경 감지 (예: window 이벤트 또는 커스텀 이벤트)
+        window.addEventListener('themechange', function (e) {
+            console.log('themechange 이벤트 발생:', e.detail?.theme);
+            const newTheme = e.detail?.theme || localStorage.getItem('theme') || 'light';
+            renderApyChart(newTheme);
+        });
+
+        // --- Progress Bar Update ---
+        const progressBar = document.getElementById('supply-progress');
+        const progressText = document.querySelector('.progress-text');
+        const total = 10000000;
+        const current = <?= $total_point ?>;
+        const percentage = Math.round((current / total) * 100);
+
+        const circumference = 2 * Math.PI * 36; // 2 * pi * radius
+        const offset = circumference - (percentage / 100) * circumference;
+
+        progressBar.style.strokeDashoffset = offset;
+        progressText.textContent = `${percentage}%`;
+    });
+
+    // 강제로 테마 변경 이벤트 발생 (예: 다크 모드로)
+    window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: 'dark' } }));
+</script>

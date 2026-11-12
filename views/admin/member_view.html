@@ -1,0 +1,309 @@
+<section class="main-section">
+    <div class="section-header">
+        <div>
+            <h2>회원 상세 정보</h2>
+        </div>
+        <div class="page-actions">
+            <a href="/admin/member/list" class="btn btn-secondary">목록</a>
+            <button type="submit" form="memberDetailForm" class="btn btn-primary">저장</button>
+        </div>
+    </div>
+
+    <form action="/admin/member/save" id="memberDetailForm" accept-charset="utf-8" novalidate method="post">
+        <?= csrf_field() ?>
+
+        <? if ($id): ?>
+            <input type="hidden" name="id" value="<?= $id ?>" />
+        <? endif; ?>
+
+        <div class="detail-layout">
+            <div>
+                <div class="card">
+                    <table class="first-table">
+                        <thead>
+                            <tr>
+                                <th>아이디</th>
+                                <th>가입일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="first-info">
+                                        <span class="place"><?= is_avatar($member['member_id']) ?></span>
+                                        <div>
+                                            <div class="first-name font-b-md"><?= $member['member_id'] ?? '' ?></div>
+                                            <div class="first-details font-b-sm b600"><?= $member['name'] ?? '' ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td><?= $member['created_at'] ?? '' ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h4 class="form-header">회원 기본 정보</h4>
+                    <div class="form-group">
+                        <label for="phone">연락처</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" value="<?= $member['phone'] ?? '' ?>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">이메일 주소</label>
+                        <input type="email" id="email" name="email" class="form-control" value="<?= $member['email'] ?? '' ?>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="memo">회원 메모</label>
+                        <textarea id="memo" name="memo" class="form-control" placeholder="회원에 관하여 메모"><?= htmlspecialchars($member['memo'] ?? '') ?></textarea>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4 class="form-header">계정 관리</h4>
+                    <div class="form-group">
+                        <label for="order-status-group">계정 상태</label>
+                        <div class="btn-toggle-group" id="order-status-group">
+                            <button type="button" class="btn-toggle active" data-value="active">활성</button>
+                            <button type="button" class="btn-toggle" data-value="inactive">비활성</button>
+                        </div>
+                        <input type="hidden" name="status" id="order-status-input" value="paid" />
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" id="resetPasswordBtn" class="btn btn-danger-outline">비밀번호 초기화</button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="card">
+                    <h4 class="form-header">활동 요약</h4>
+                    <ul class="info-list">
+                        <li>
+                            <span class="label">총 주문 금액</span>
+                            <span class="value">₩1,280,000</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sub-actions-group">
+                    <button type="button" class="btn btn-secondary" data-modal-type="iframe" data-url="about:blank" data-title="지갑">지갑</button>
+                    <button type="button" class="btn btn-secondary" data-modal-type="iframe" data-url="about:blank" data-title="인출 현황">인출 현황</button>
+                </div>
+                <div class="card">
+                    <h4 class="form-header">
+                        보유
+                        <?= ACCOUNT_NAME ?>
+                    </h4>
+                    <table class="downline-table">
+                        <thead>
+                            <tr>
+                                <th><?= ACCOUNT_NAME ?>명</th>
+                                <th>등록일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <? foreach ($order as $row): ?>
+                                <tr>
+                                    <td>
+                                        <div class="user-info"><?= $row['mlm_id'] ?></div>
+                                        <div class="user-id">
+                                            <?= $row['final_price_format'] ?>
+                                            원
+                                        </div>
+                                    </td>
+                                    <td><?= $row['created_at'] ?></td>
+                                </tr>
+                            <? endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="btn-group">
+                    <a href="/admin/member/list" class="btn btn-secondary">목록</a>
+                    <button type="submit" form="memberDetailForm" class="btn btn-primary">저장</button>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger-outline"
+                        data-modal-type="confirm"
+                        data-message="정말 삭제하시겠습니까? [복구불가]"
+                        data-action="/admin/member/delete/<?= $member['member_id']; ?>">
+                        삭제
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<div class="modal-overlay" id="passwordResetModal">
+    <div class="modal-content">
+        <h3 class="modal-header">임시 비밀번호 발급</h3>
+        <p class="temp-password">12345678</p>
+        <p>회원에게 임시 비밀번호를 즉시 전달 하세요</p>
+        <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="closeModalBtn">취소</button>
+            <button type="button" class="btn btn-primary" id="confirmResetBtn">변경하기</button>
+        </div>
+    </div>
+</div>
+<style>
+    /* 임시 비밀번호 (가장 중요한 부분) */
+    .temp-password {
+        display: inline-block;
+        /* 가운데 정렬 및 padding 적용 */
+        padding: 12px 20px;
+        margin: 12px auto 16px;
+        /* 위아래 여백, 좌우 자동(가운데 정렬) */
+
+        /* ( :root 변수 활용 ) */
+        background-color: var(--bg-light);
+        border: 1px dashed var(--border-color);
+        color: var(--primary-dark);
+        /* 강조 색상 */
+
+        border-radius: 8px;
+        /* 버튼 등 다른 요소와 통일감 */
+
+        /* 비밀번호 느낌을 주는 폰트 */
+        font-family: "Courier New", Courier, monospace;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        /* 자간 */
+
+        /* 사용자가 쉽게 복사할 수 있도록 */
+        user-select: all;
+    }
+
+    /* 비밀번호 아래의 안내 문구 (p 태그) */
+    .modal-content p {
+        font-size: 1.6rem;
+        color: var(--text-primary);
+        line-height: 1.6;
+        text-align: center;
+        margin-bottom: 24px;
+        /* 버튼 영역과 간격 띄우기 */
+    }
+
+    /* 비밀번호 바로 밑의 p 태그는 좀 더 연하게 처리 */
+    .temp-password+p {
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        /* 보조 텍스트 색상 */
+        margin-top: -8px;
+        /* 비밀번호 박스와의 간격을 살짝 좁힘 */
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentStatus = "<?= $member['status'] ?? 'active' ?>";
+
+        //토글 버튼 (변경 없음)
+        const statusGroup = document.getElementById('order-status-group');
+        const statusInput = document.getElementById('order-status-input');
+
+        if (statusGroup && statusInput) {
+            // DB 값에 맞는 버튼에 active 클래스 추가 및 input 값 설정
+            statusGroup.querySelectorAll('.btn-toggle').forEach((btn) => {
+                if (btn.dataset.value === currentStatus) {
+                    btn.classList.add('active');
+                    statusInput.value = currentStatus;
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            statusGroup.addEventListener('click', (e) => {
+                const clickedButton = e.target.closest('.btn-toggle');
+                if (clickedButton) {
+                    statusGroup.querySelectorAll('.btn-toggle').forEach((btn) => {
+                        btn.classList.remove('active');
+                    });
+                    clickedButton.classList.add('active');
+                    statusInput.value = clickedButton.dataset.value;
+                }
+            });
+        }
+        // 비밀번호 초기화 모달 관련
+        const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+        const passwordModal = document.getElementById('passwordResetModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const confirmResetBtn = document.getElementById('confirmResetBtn');
+
+
+        if (resetPasswordBtn && passwordModal && closeModalBtn && confirmResetBtn) {
+            // 모달 열기
+            resetPasswordBtn.addEventListener('click', () => {
+                passwordModal.classList.add('visible');
+            });
+
+            // '취소' 버튼으로 모달 닫기
+            closeModalBtn.addEventListener('click', () => {
+                passwordModal.classList.remove('visible');
+            });
+
+            // '변경하기' 버튼 클릭 시
+            confirmResetBtn.addEventListener('click', () => {
+                const memberId = document.querySelector('input[name="id"]').value;
+                const csrfInput = document.querySelector('input[name="csrf_token"]');
+
+                // FormData 객체 생성
+                const formData = new FormData();
+                formData.append('id', memberId);
+
+                // 토큰전송
+                if (csrfInput) {
+                    formData.append('csrf_token', csrfInput.value);
+                }
+
+                // AJAX 요청 시작 (FormData 방식)
+                fetch('/admin/member/reset_password', {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData,
+                    })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('서버 응답이 올바르지 않습니다.');
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+
+                        // 토큰갱신
+                        if (csrfInput) csrfInput.value = data.token.value;
+
+                        passwordModal.classList.remove('visible');
+                        if (data.success || data.status === 'success') {
+
+                            Modal.alert('비밀번호가 성공적으로 초기화되었습니다.');
+                        } else {
+
+                            Modal.alert(data.message || '초기화에 실패했습니다.');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        passwordModal.classList.remove('visible');
+
+                        Modal.alert('오류가 발생했습니다. 다시 시도해주세요.');
+                    });
+            });
+
+            // 모달 외부 클릭 시 닫기
+            passwordModal.addEventListener('click', (e) => {
+                if (e.target === passwordModal) {
+                    passwordModal.classList.remove('visible');
+                }
+            });
+        }
+
+    });
+</script>

@@ -1,0 +1,560 @@
+@charset "utf-8";
+
+/* ========================================================= */
+/* 1. 기본 설정 (Base)                                       */
+/* ========================================================= */
+#board {
+    /* 테마 변수 */
+    --primary: #111; /* 주요 색상 (헤더 배경 등) */
+    --text: #333; /* 본문 텍스트 */
+    --gray: #888; /* 보조 텍스트 */
+    --border: #eee; /* 테두리 */
+    --bg-hover: #fafafa; /* 호버 배경 */
+    --point: #e74c3c; /* 포인트(에러/강조) */
+    --radius: 4px;
+
+    font-size: 19px;
+    color: var(--text);
+    line-height: 1.6;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#board a {
+    text-decoration: none;
+    color: inherit;
+    transition: 0.2s;
+}
+
+#board ul,
+#board li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 공통 레이아웃 */
+#board .layout {
+    max-width: 100%;
+    margin: 0 auto;
+    padding-top: 120px;
+    padding-bottom: 80px;
+}
+
+/* 좁은 레이아웃 (글쓰기 등) */
+#board .layout-narrow {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+
+/* 아이콘 유틸 */
+#board .secret-icon {
+    color: #757575;
+    font-size: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+
+#board .new-icon {
+    display: inline-flex;       /* 박스 형태 유지를 위해 flex 사용 */
+    align-items: center;        /* 수직 중앙 정렬 */
+    justify-content: center;    /* 수평 중앙 정렬 */
+    width: 20px;                /* 박스 너비 */
+    height: 20px;               /* 박스 높이 */
+    background-color: #000;  /* 배경색 (주황색), 빨강을 원하시면 var(--point) 사용 */
+    color: #fff;                /* N 글자 색상 (흰색) */
+    font-size: 10px;            /* N 글자 크기 */
+    font-weight: bold;          /* 글자 굵게 */
+    border-radius: 2px;         /* 모서리 살짝 둥글게 (완전 사각형을 원하면 0px) */
+    margin-left: 6px;           /* 제목과의 간격 */
+    vertical-align: middle;
+    position: relative;
+    line-height: 1;
+    padding: 0;                 /* 불필요한 여백 제거 */
+}
+
+#board .new-icon::before {
+    content: "N";
+}
+
+/* ========================================================= */
+/* 2. 헤더 및 검색창 (Header)                                */
+/* ========================================================= */
+#board .header.search-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d1d5db;
+}
+
+#board .header.search-header .title {
+    font-size: 72px;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0 0 40px 0;
+    line-height: 1.25;
+}
+
+
+
+/* 검색창 영역 */
+#board .simple-search {
+    position: relative;
+    width: 250px;
+}
+#board .simple-search input[type='text'] {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 5px 30px 5px 5px;
+    font-size: 16px;
+    text-align: right;
+    outline: none;
+    color: var(--text);
+}
+#board .simple-search .btn-icon {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 0;
+}
+
+/* ========================================================= */
+/* 3. 목록 (List Page)                                       */
+/* ========================================================= */
+
+#board .list-head {
+    display: flex;
+    padding: 20px 0;
+    font-weight: 700;
+    font-size: 16px;
+    border-bottom: 1px solid var(--border); /* 헤더 하단 선 */
+}
+
+/* 리스트 행 */
+#board .list-row {
+    border-bottom: 1px solid var(--border);
+}
+#board .list-row:first-child {
+    border-top: 1px solid var(--border);
+}
+
+#board .item-link {
+    display: flex;
+    align-items: center;
+    padding: 30px 0;
+    transition: background 0.2s;
+    width: 100%;
+}
+#board .item-link:hover {
+    background-color: var(--bg-hover);
+}
+
+/* 컬럼 스타일 */
+#board .item-date {
+    width: 200px; /* 고정 너비 */
+    padding-left: 10px;
+    font-size: 16px;
+    color: var(--text);
+}
+#board .item-subject {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 600;
+    padding-right: 20px;
+    color: #222;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 보여줄 줄 수: 2줄 */
+    line-clamp: 1; /* 표준 속성 추가 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* 줄바꿈 허용 */
+    word-break: break-all;
+}
+#board .item-subject.center {
+    text-align: center;
+}
+
+/* 댓글 수 & 뱃지 */
+#board .cnt {
+    font-size: 14px;
+    color: var(--point);
+    margin-left: 5px;
+    font-weight: 400;
+}
+#board .category {
+    font-weight: normal;
+    font-weight: 500;
+    margin-right: 4px;
+}
+#board .empty-msg {
+    padding: 100px 0;
+    text-align: center;
+    color: #999;
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+}
+
+/* ========================================================= */
+/* 4. 본문 보기 (View Page)                                  */
+/* ========================================================= */
+#board .view-head {
+    width: 100%;
+    background-color: var(--primary); /* 검은 배경 */
+    padding: 60px 20px 30px 40px;
+    color: #fff;
+    margin-bottom: 60px;
+}
+#board .view-head-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#board .view-head .subject {
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 30px 0;
+    color: #fff;
+    word-break: keep-all;
+}
+#board .view-head .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 20px;
+}
+#board .view-head .date {
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+/* 본문 내용 */
+#board .view-body {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px 100px 16px;
+}
+#board .content {
+    font-size: 19px;
+    line-height: 1.8;
+    color: var(--text);
+    min-height: 200px;
+    padding-bottom: 20px;
+    word-break: break-all;
+}
+
+/* 하단 액션 & 네비게이션 */
+#board .view-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-top: 1px solid var(--border);
+}
+#board .view-action .right {
+    display: flex;
+    gap: 10px;
+}
+
+#board .view-nav {
+    margin-top: 50px;
+    border-top: 1px solid var(--border);
+}
+#board .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    transition: background 0.2s;
+}
+#board .nav-item:hover {
+    background-color: var(--bg-hover);
+}
+#board .nav-item .date {
+    width: 120px;
+    color: var(--gray);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+#board .nav-item .title {
+    flex: 1;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ========================================================= */
+/* 5. 글쓰기 (Write Page)                                    */
+/* ========================================================= */
+#board .write-wrap {
+    padding: 60px 0;
+}
+#board .write-wrap .main-title {
+    font-size: 42px;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+#board .form-group {
+    margin-bottom: 30px;
+}
+#board .form-row {
+    display: flex;
+    gap: 20px;
+}
+#board .form-col {
+    flex: 1;
+}
+
+#board .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #222;
+}
+#board .form-label.req::after {
+    content: '*';
+    color: var(--point);
+    margin-left: 4px;
+}
+#board .form-input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: 0.2s;
+    color: var(--text);
+}
+#board .form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+#board .msg-error {
+    background-color: #fff5f5;
+    color: var(--point);
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ffcccc;
+    margin-bottom: 20px;
+}
+
+/* ========================================================= */
+/* 6. 컴포넌트 (Buttons, Pagination, Files)                  */
+/* ========================================================= */
+/* 버튼 */
+#board .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+#board .btn.primary {
+    background-color: var(--primary);
+    color: #fff;
+}
+#board .btn.primary:hover {
+    opacity: 0.9;
+}
+#board .btn.basic {
+    background-color: #fff;
+    border: 1px solid var(--border);
+    color: #666;
+}
+#board .btn.basic:hover {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+#board .btn-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid var(--border);
+    color: var(--gray);
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#board .btn-circle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#board .btn-circle.list {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+/* 페이지네이션 */
+#board .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+#board .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    border-radius: 4px;
+    font-size: 15px;
+    color: var(--gray);
+    transition: all 0.2s;
+}
+#board .page-link.active {
+    background-color: #f4f5f7;
+    color: var(--text);
+    font-weight: 600;
+}
+#board .page-link:hover:not(.active) {
+    background-color: var(--bg-hover);
+}
+
+/* 텍스트 복사 버튼 전용 스타일 */
+#board .btn-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 24px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* 아이콘 간격 및 색상 */
+#board .btn-copy i {
+    margin-left: 8px;
+    font-size: 15px;
+    color: #888;
+    transition: inherit;
+}
+
+/* 마우스를 올렸을 때 (Hover) */
+#board .btn-copy:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#board .btn-copy:hover i {
+    color: var(--primary);
+}
+
+/* 클릭했을 때 (Active) */
+#board .btn-copy:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================================= */
+/* 7. 반응형 (Mobile)                                        */
+/* ========================================================= */
+@media (max-width: 768px) {
+    #board .layout {
+        padding-top: 80px;
+        padding-bottom: 10px;
+    }
+
+    #board .header.search-header .title {
+        font-size: 42px;
+        margin-bottom: 20px;
+    }
+
+    #board .header.search-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    #board .simple-search {
+        width: 100%;
+    }
+    #board .simple-search input[type='text'] {
+        text-align: left;
+    }
+
+    #board .list-head {
+        display: none;
+    }
+    #board .item-link {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 0;
+    }
+    #board .item-subject {
+        width: 100%;
+        font-size: 17px;
+        white-space: normal;
+        padding-right: 0;
+        margin-bottom: 8px;
+        order: 1;
+    }
+    #board .item-date {
+        width: 100%;
+        font-size: 14px;
+        color: #999;
+        padding-left: 0;
+        order: 2;
+    }
+
+    #board .view-head {
+        padding: 50px 20px 30px;
+    }
+    #board .view-head .subject {
+        font-size: 26px;
+    }
+
+    #board .nav-item .date {
+        display: none;
+    }
+
+    #board .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    #board .btn {
+        flex: 1;
+    }
+}

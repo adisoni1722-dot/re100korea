@@ -1,0 +1,106 @@
+<? $this->extend('_layout') ?>
+
+<? $this->section('title') ?>
+   홈
+<? $this->endSection() ?>
+
+<? $this->section('content') ?>
+
+<div class="visual">  <!--<div class="visual transparent-on"> transparent-on 제거 -->
+    <div class="visual-wrap">
+        <video autoplay="autoplay" loop="loop" muted="muted" playsinline="" class="video-cover">
+            <source src="https://kbt7.com/video/1-1재활용심볼.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+
+        <!-- 슬로건 -->
+        <div class="unit">
+            <div class="slogan">
+                <div class="slogan-head">
+                    <div class="unit-grid">
+                        <div class="grid">
+                            <h1 class="font-t-lg b500 ani-on" data-type="slideup" data-delay="400">RE<span style="font-size:30px">100</span>KOREA<br>대중을 더하다</h1>
+                        </div>
+                        <div class="grid text-right">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slogan-body ani-on" data-type="slideup" data-delay="800">
+                    <p class="font-b-md">Opening an era of popularized carbon<br>
+                        neutrality through carbon shopping</p>
+                </div>
+
+                <div class="slogan-footer ani-on" data-type="slideup" data-delay="1200">
+                    <!-- <img src="/assets/images/main/visual_txt.png"> -->
+					<p>For the popularization</p>
+					<h2>of carbon neutrality</h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--비즈니스-->
+<section class="business">
+    <div class="unit">
+        <div class="unit-grid">
+            <div class="business-wrap">
+                <h2 class="font-t-lg ani-on black" data-type="slideup" data-delay="400">대한민국</h2>
+                <h2 class="font-t-lg ani-on mt-10" data-type="slideup" data-delay="800">탄소중립</h2>
+
+            </div>
+            <div class="business-wrap">
+                <div class="font-t-sm b600 ani-on gray" data-type="slideup" data-delay="1200">
+                    대한민국 탄소중립<br>대중화 를 위한 프로젝트를 디자인합니다.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="sec-wrap">
+    <div class="unit">
+        <div class="grid-container">
+            <div class="left-column-wrapper">
+				<div class="left-column-top">
+                    <div class="text-box">
+                        <h3 class="font-b-lg b600" id="text_h">탄소쇼핑, 그 이상의 것</h3>
+                        <p id="text_p">0.1%<span style="font-size:10px">의 관심으로 시작됩니다.</span></p>
+                    </div>
+                    <video src="https://kbt7.com/video/1-2불타는지구.mp4" width="300" controls alt="좌측 상단 영상"></video>
+					<button class="video_btn" type="button" onclick="location.href='https://www.re100.biz'">쇼핑하기</button>					
+                </div>
+				<div class="left-column-bottom">
+                    <div class="text-box">
+                        <h3 class="font-b-lg b600">실천기업, 늘 신뢰있게</h3>
+                        <p>신재생에너지, 탄소저감 기술 및 서비스</p>
+                    </div>
+                    <video src="https://kbt7.com/video/1-5자동차고철.mp4" width="300" controls alt="좌측 하단 영상">video</video>
+					<button class="video_btn" type="button" onclick="location.href='https://www.re100.biz'">쇼핑하기</button>	
+                </div>
+			</div>
+            <div class="right-column-wrapper">
+                <div class="right-column-top">
+                    <div class="text-box">
+                        <h3 class="font-b-lg b600">탄소중립 실천포인트</h3>
+                        <p>1,000만 지구애착증후군</p>
+                    </div>
+                    <video src="https://kbt7.com/video/1-10건전지.mp4" width="300" controls alt="우측 상단 영상"></video>
+					<button class="video_btn" type="button" onclick="location.href='https://www.re100.biz'">동참하기</button>	
+                </div>
+                <div class="right-column-bottom">
+                    <div class="text-box">
+                        <h3 class="font-b-lg b600">순환자원, 늘 색다르게</h3>
+                        <p>새로운 트렌드  도시형 체험카페</p>
+                    </div>
+                    <video src="https://kbt7.com/video/1-7나무조각.mp4" width="300" controls alt="우측 하단 영상"></video>
+					<button class="video_btn" type="button" onclick="location.href='https://www.re100.biz'">쇼핑하기</button>	
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<? $this->endSection() ?>

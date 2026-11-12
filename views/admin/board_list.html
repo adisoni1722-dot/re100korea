@@ -1,0 +1,227 @@
+<section class="main-section">
+    <form name="fboardlist" id="fboardlist" action="/admin/board/update_list" method="POST" autocomplete="off">
+        <?= csrf_field() ?>
+        <input type="hidden" name="mode" value="list_update">
+
+        <div class="section-header">
+            <h2>게시판 관리</h2>
+            <div class="page-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> 수정
+                </button>
+                <a href="/admin/board/view" class="btn btn-secondary">
+                    <i class="fa-solid fa-plus"></i> 생성
+                </a>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="grid">
+                <div class="card" style="padding: 10px; overflow: hidden;">
+                    <div class="table-scroll-wrapper" style="max-height: none;">
+                        <table class="list-table">
+                            <colgroup>
+                                <col width="50">
+                                <col width="120">
+                                <col width="150">
+                                <col width="150">
+                                <col width="*">
+                                <col width="80">
+                                <col width="80">
+                                <col width="60">
+                                <col width="60">
+                                <col width="140">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        <input type="checkbox" id="chkall" onclick="check_all(this.form)">
+                                    </th>
+                                    <th>TABLE (ID)</th>
+                                    <th>스킨</th>
+                                    <th>에디터</th>
+                                    <th>제목</th>
+                                    <th class="text-center">읽기Lv</th>
+                                    <th class="text-center">쓰기Lv</th>
+                                    <th class="text-center">비밀</th>
+                                    <th class="text-center">파일</th>
+                                    <th class="text-center">관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?
+                                // $board_list와 $skins는 컨트롤러에서 전달받습니다.
+                                if (!empty($board_list)) {
+                                    foreach ($board_list as $row) {
+                                        $id = $row['board_id'];
+                                ?>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="chk[]" value="<?= $id ?>" id="chk_<?= $id ?>">
+
+                                                <input type="hidden" name="boards[<?= $id ?>][original_board_id]" value="<?= $id ?>">
+                                            </td>
+
+                                            <td>
+                                                <input type="text" name="boards[<?= $id ?>][board_id]" value="<?= $id ?>" class="form-control" style="padding: 6px; font-weight:bold; color:var(--color-primary);">
+                                            </td>
+
+                                            <td>
+                                                <select name="boards[<?= $id ?>][skin]" class="form-control" style="padding: 6px; font-size: 1.4rem;">
+                                                    <? foreach ($skins as $skin_dir => $skin_name) { ?>
+                                                        <option value="<?= $skin_dir ?>" <?= ($row['skin'] == $skin_dir) ? 'selected' : '' ?>>
+                                                            <?= $skin_name ?>
+                                                        </option>
+                                                    <? } ?>
+                                                </select>
+                                            </td>
+
+                                            <td>
+                                                <select name="boards[<?= $id ?>][use_editor]" class="form-control" style="padding: 6px; font-size: 1.4rem;">
+                                                    <option value="minici" <?= ($row['use_editor'] == 'minici') ? 'selected' : '' ?>>MiniCI Editor</option>
+                                                    <option value="toast" <?= ($row['use_editor'] == 'toast') ? 'selected' : '' ?>>Toast Ui Editor</option>
+                                                </select>
+                                            </td>
+
+                                            <td>
+                                                <input type="text" name="boards[<?= $id ?>][title]" value="<?= $row['title'] ?>" class="form-control" style="padding: 6px;">
+                                            </td>
+
+                                            <td>
+                                                <input type="text" name="boards[<?= $id ?>][read_level]" value="<?= $row['read_level'] ?>" class="form-control text-center" style="padding: 6px;">
+                                            </td>
+
+                                            <td>
+                                                <input type="text" name="boards[<?= $id ?>][write_level]" value="<?= $row['write_level'] ?>" class="form-control text-center" style="padding: 6px;">
+                                            </td>
+
+                                            <td class="text-center">
+                                                <input type="checkbox" name="boards[<?= $id ?>][use_secret]" value="1" <?= ($row['use_secret'] ? 'checked' : '') ?>>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <input type="checkbox" name="boards[<?= $id ?>][use_file]" value="1" <?= ($row['use_file'] ? 'checked' : '') ?>>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <a href="/admin/board/view/<?= $id ?>" class="btn-small">수정</a>
+                                                <a href="/board/<?= $id ?>/list" target="_blank" class="btn-small">보기</a>
+                                            </td>
+                                        </tr>
+                                    <?
+                                    } // end foreach
+                                } else {
+                                    ?>
+                                    <tr>
+                                        <td colspan="9" class="empty-state" style="padding: 50px 0; position:static; transform:none;">
+                                            <i class="fa-solid fa-folder-open"></i>
+                                            <p>생성된 게시판이 없습니다.</p>
+                                        </td>
+                                    </tr>
+                                <? } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<script>
+    // 전체 선택/해제 스크립트
+    function check_all(f) {
+        var chk = document.getElementsByName("chk[]");
+        for (i = 0; i < chk.length; i++)
+            chk[i].checked = f.chkall.checked;
+    }
+
+    // 폼 전송 시 유효성 검사
+    document.getElementById('fboardlist').addEventListener('submit', function(e) {
+        var chk = document.getElementsByName("chk[]");
+        var bchk = false;
+        for (i = 0; i < chk.length; i++) {
+            if (chk[i].checked) bchk = true;
+        }
+        if (!bchk) {
+            alert("수정할 게시판을 하나 이상 선택하세요.");
+            e.preventDefault();
+            return;
+        }
+    });
+</script>
+
+<style>
+    /* 테이블 내부 인풋 스타일 미세 조정 */
+    .list-table .form-control {
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-main);
+        height: 34px;
+        font-size: 1.4rem;
+        width: 100%;
+        box-sizing: border-box;
+        /* 패딩 포함 크기 계산 */
+    }
+
+    /* 텍스트 중앙 정렬 및 셀 패딩 */
+    .list-table .text-center {
+        text-align: center;
+    }
+
+    .list-table td {
+        padding: 8px 4px;
+        vertical-align: middle;
+    }
+
+    /* 버튼 스타일 */
+    .btn-small {
+        padding: 4px 8px;
+        font-size: 1.2rem;
+        background-color: var(--bg-main);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        color: var(--text-primary);
+        display: inline-block;
+        white-space: nowrap;
+        /* 버튼 텍스트 줄바꿈 방지 */
+    }
+
+    .btn-small:hover {
+        background-color: var(--border-color);
+    }
+
+    /* -----------------------------------------------------------
+   [모바일 대응]
+----------------------------------------------------------- */
+    @media (max-width: 768px) {
+
+        /* 1. 스크롤 래퍼: 가로 스크롤 허용 */
+        .table-scroll-wrapper {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            /* 부드러운 스크롤 */
+            padding-bottom: 10px;
+            /* 스크롤바 공간 확보 */
+        }
+
+        /* 2. 테이블 최소 너비 강제 설정
+       (이 너비보다 화면이 좁으면 스크롤이 생기며 칸이 줄어들지 않음) */
+        .list-table {
+            min-width: 1100px;
+            /* 전체 컬럼이 여유롭게 보일 수 있는 너비 */
+            table-layout: fixed;
+            /* 컬럼 너비 고정 */
+        }
+
+        /* 3. 스킨 선택 박스 등 입력창 최소 너비 보장 */
+        .list-table select.form-control {
+            min-width: 120px;
+            /* 스킨 이름이 길어도 보이도록 최소폭 지정 */
+        }
+
+        .list-table input[type="text"].form-control {
+            min-width: 80px;
+            /* 텍스트 입력창 최소폭 지정 */
+        }
+    }
+</style>

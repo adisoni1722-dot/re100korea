@@ -1,0 +1,123 @@
+<section class="main-section">
+    <div class="section-header">
+        <div>
+            <h2>마감 상세</h2>
+        </div>
+        <div class="page-actions">
+            <a href="/admin/closing/list" class="btn btn-secondary">목록</a>
+            <button type="submit" form="closingForm" class="btn btn-primary">
+                <?= $event_id ? '저장' : '등록' ?>
+            </button>
+        </div>
+    </div>
+
+    <form action="/admin/closing/save" id="closingForm" name="closingForm" novalidate method="post" enctype="multipart/form-data">
+    <?= csrf_field() ?>
+    <? if ($event_id): ?>
+        <input type="hidden" name="event_id" value="<?= $event_id ?>">
+    <? endif; ?>
+
+    <div class="detail-layout">
+        <div>
+            <div class="card">
+                <h4 class="form-header">정산 요약</h4>
+                <ul class="summary-list">
+                    <li>
+                        <span class="label">마감 기간</span>
+                        <span class="value">
+                            <?= $closing['start_day'] ?? '' ?> ~ <?= $closing['end_day'] ?? '' ?>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="label">총 매출액</span>
+                        <span class="value">₩ <?= number_format($closing['total_income'] ?? 0, 0) ?></span>
+                    </li>
+                    <li class="total">
+                        <span class="label">총 수당 지급액</span>
+                        <span class="value">₩ <?= number_format($closing['total_bonus'] ?? 0, 0) ?></span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4 class="form-header">정산 관리</h4>
+                <div class="form-group">
+                    <label for="settlement-status">검수 상태</label>
+                    <select id="settlement-status" name="status" class="form-control">
+                        <option value="pending" <?= (isset($closing['status']) && $closing['status'] === 'pending') ? 'selected' : ''; ?>>미검수</option>
+                        <option value="completed" <?= (isset($closing['status']) && $closing['status'] === 'completed') ? 'selected' : ''; ?>>검수완료</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h4 class="form-header">수당 지급 내역</h4>
+
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <input type="text" id="payoutSearch" placeholder="이름 또는 아이디 검색" class="form-control">
+                        <i class="fa-solid fa-search filter-icon"></i>
+                    </div>
+                </div>
+
+                <div class="table-scroll-wrapper">
+                    <table class="payout-table">
+                        <thead>
+                            <tr>
+                                <th>회원</th>
+                                <th>지급액</th>
+                                <th>관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payoutTableBody">
+                            <? foreach ($member as $row): ?>
+                                <tr>
+                                    <td>
+                                        <div class="user-info"><?= $row['name'] ?></div>
+                                        <div class="user-id"><?= $row['mlm_id'] ?></div>
+                                    </td>
+                                    <td>₩ <?= number_format($row['total_amount'], 0) ?> 원</td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            class="btn-small"
+                                            data-size="full"
+                                            data-modal-type="iframe"
+                                            data-url="/office/bonus/dual/<?= encrypt_id($row['mlm_id']) ?>"
+                                            data-title="수당 상세보기">
+                                            상세보기
+                                        </button>
+                                    </td>
+                                </tr>
+                            <? endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </form>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // --- 테이블 검색 필터 ---
+        const searchInput = document.getElementById('payoutSearch');
+        const tableBody = document.getElementById('payoutTableBody');
+        const rows = tableBody.querySelectorAll('tr');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                const q = searchInput.value.toLowerCase();
+                rows.forEach(row => {
+                    const name = row.querySelector('.user-info')?.textContent.toLowerCase() || '';
+                    const id = row.querySelector('.user-id')?.textContent.toLowerCase() || '';
+                    row.style.display = (name.includes(q) || id.includes(q)) ? '' : 'none';
+                });
+            });
+        }
+    });
+</script>

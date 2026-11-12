@@ -1,0 +1,192 @@
+<style>
+    /* 기본 스타일 초기화 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    /* 전체 페이지 컨테이너 */
+    .page-container {
+      width: 100%;
+      text-align: center;
+    }
+
+    /* 상단 아이콘 */
+    .icon-area {
+      margin-bottom: 16px; /* 사이즈 축소 */
+    }
+
+    .icon-wrapper {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 56px; /* 사이즈 축소 */
+      height: 56px; /* 사이즈 축소 */
+      background-color: rgba(138, 0, 252, 0.1);
+      border-radius: 50%;
+    }
+
+    .icon-wrapper span {
+      font-size: 28px; /* 사이즈 축소 */
+      color: rgb(138, 0, 252);
+    }
+
+    /* 헤더 영역 */
+    .header-area {
+      margin-bottom: 24px; /* 사이즈 축소 */
+    }
+
+    .header-area h1 {
+      font-size: 26px; /* 사이즈 축소 */
+      font-weight: 800;
+      color: #212529;
+      margin-bottom: 6px; /* 사이즈 축소 */
+    }
+
+    .header-area p {
+      font-size: 15px; /* 사이즈 축소 */
+      color: #6c757d;
+    }
+
+    /* === 수정된 유의사항 박스 === */
+    .notice-box {
+      max-width: 700px;
+      /* 연한 보라색 배경 추가 */
+      background-color: rgba(138, 0, 252, 0.05);
+      /* 강조를 위한 왼쪽 보라색 테두리 추가 */
+      border-left: 4px solid rgb(138, 0, 252);
+      border-top: 1px solid rgba(138, 0, 252, 0.2);
+      border-right: 1px solid rgba(138, 0, 252, 0.2);
+      border-bottom: 1px solid rgba(138, 0, 252, 0.2);
+      border-radius: 6px;
+      padding: 24px;
+      text-align: left;
+      margin-bottom: 30px;
+      margin: 0 auto;
+    }
+
+    .notice-box h3 {
+      font-size: 17px; /* 살짝 키움 */
+      font-weight: 700;
+      margin-bottom: 14px; /* 여백 조정 */
+      /* 제목 색상 강조 */
+      color: rgb(138, 0, 252);
+    }
+
+    .notice-box ul {
+      list-style-type: none;
+    }
+
+    .notice-box ul li {
+      position: relative;
+      padding-left: 18px; /* 아이콘 공간 확보 */
+      margin-bottom: 10px; /* 여백 조정 */
+      font-size: 16px;
+      /* 텍스트를 더 잘 보이게 살짝 진하게 */
+      color: #343a40;
+      font-weight: 500;
+    }
+
+    .notice-box ul li::before {
+      /* 아이콘을 '!' (느낌표)로 변경 */
+      content: '!';
+      position: absolute;
+      left: 0;
+      top: 1px;
+      color: rgb(138, 0, 252);
+      font-weight: 700;
+      font-size: 16px;
+    }
+    /* === 수정 끝 === */
+
+
+    /* 버튼 영역 */
+    .button-area {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn-confirm-cancel {
+      background-color: rgb(138, 0, 252);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px; /* 사이즈 축소 */
+      padding: 12px 30px; /* 사이즈 축소 */
+      font-size: 16px; /* 사이즈 축소 */
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(138, 0, 252, 0.2);
+    }
+
+    .btn-confirm-cancel:hover {
+      background-color: rgb(120, 0, 220);
+      transform: translateY(-2px);
+    }
+
+    .btn-go-back {
+      background-color: #6c757d;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background-color 0.2s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.2);
+    }
+
+    .btn-go-back:hover {
+      background-color: #5a6268;
+      transform: translateY(-2px);
+    }
+</style>
+
+<div class="page-container">
+    <div class="icon-area">
+        <div class="icon-wrapper">
+            <span>!</span>
+        </div>
+    </div>
+
+    <header class="header-area">
+        <h1><?= ORDER ?>를 취소하시겠습니까?</h1>
+        <p>취소 전 아래 유의사항을 다시 한번 확인해 주세요.</p>
+    </header>
+
+    <section class="notice-box">
+        <h3>유의사항</h3>
+        <ul>
+            <li>
+                <?= ORDER ?>
+                취소하시면 재신청 하셔야 합니다
+            </li>
+            <li>
+                나의 하위
+                <?= ACCOUNT_NAME ?>
+                존재할 경우 취소 불가
+            </li>
+            <li>
+                하위라인이 있다면 순차적으로
+                <?= ORDER ?>취소 해야 합니다
+            </li>
+
+            <li>
+                마감이 완료된
+                <?= ORDER ?>는 취소할 수 없습니다
+            </li>
+        </ul>
+    </section>
+
+    <div class="button-area">
+        <button type="button" class="btn-confirm-cancel" onclick="location.href='/office/order/delete/<?= $page?>'">
+          <?= ORDER ?>
+            취소
+        </button>
+        <button type="button" class="btn-go-back" onclick="history.back()">이전으로 가기</button>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+
+.info-card--dark .upload-icon {
+  color: var(--text-secondary);
+}
+
+/* Image Uploader */
+.image-upload-wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.image-upload-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  border: 2px dashed var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  background-size: cover;
+  background-position: center;
+}
+.image-upload-container:hover {
+  border-color: var(--color-primary);
+}
+.upload-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.4rem;
+  color: var(--text-secondary);
+}
+.recipient-avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  display: none;
+}
+.recipient-avatar.visible {
+  display: block;
+}
+.image-upload-input {
+  display: none;
+}
+.image-label {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  color: var(--text-light);
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 2;
+}
+.remove-image-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-danger);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: none;
+  cursor: pointer;
+  line-height: 20px;
+  text-align: center;
+  z-index: 3;
+}
+.image-upload-container.has-image .remove-image-button {
+  display: block;
+}
+.image-upload-container.has-image .upload-icon {
+  display: none;
+}
+.image-upload-container:not(.has-label) .image-label {
+  display: none;
+}
+
+/* 모바일 이미지 업로드 3칸 그리드 */
+@media (max-width: 768px) {
+  .image-upload-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}

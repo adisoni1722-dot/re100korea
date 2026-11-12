@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?= SITE_NAME ?> - 관리자</title>
+    <script>
+        (function() {
+            // 로컬 스토리지에서 테마 정보 가져오기 (없으면 기본값 light)
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            // 화면이 그려지기 전에 <html> 태그에 테마 속성을 즉시 적용
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <?= load_asset('/assets/css/common.css') ?>
+    <?= load_asset('css/layout.css') ?>
+    <?= load_asset('css/auto') ?>
+</head>
+
+<body>
+
+
+    <? if (!isset($no_layout) || !$no_layout) { ?>
+        <div class="dashboard-container">
+            <div class="backdrop"></div>
+            <aside class="sidebar">
+                <div class="sidebar__inner">
+                    <div class="sidebar__header">
+                        <a href="/admin" class="logo">
+                            <span class="logo__avatar"><?= is_avatar(SITE_NAME_EN) ?></span>
+                            <h1><?= SITE_NAME ?></h1>
+                        </a>
+                    </div>
+                    <nav class="sidebar__nav">
+                        <ul>
+                            <li class="active">
+                                <a href="/admin"><i class="fa-solid fa-chart-pie"></i><span>대시보드</span></a>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    <div class="menu-label">
+                                        <i class="fa-solid fa-users"></i><span>회원 관리</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                                </a>
+
+                                <ul class="submenu-list">
+                                    <li><a href="/admin/member/list">전체 회원 목록</a></li>
+                                    <li><a href="/admin/member/access">접속 기록</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="/admin/board/list"><i class="fa-solid fa-clipboard-list"></i><span>게시판 관리</span></a>
+                            </li>
+                            <li>
+                                <a href="/admin/product/list"><i class="fa-solid fa-file-signature"></i><span>상품 관리</span></a>
+                            </li>
+                            <li>
+                                <a href="/admin/order/list"><i class="fa-solid fa-calculator"></i><span><?= ORDER_LIST ?></span></a>
+                            </li>
+                            <li>
+                                <a href="/admin/closing/list"><i class="fa-solid fa-clipboard-check"></i><span>마감관리</span></a>
+                            </li>
+                            <li style="height: 1px; background-color: var(--border-color); margin: 0 16px;"></li>
+                            <!-- <li>
+                                <a href="#"><i class="fa-solid fa-link"></i><span>통계</span></a>
+                            </li> -->
+                            <li>
+                                <a href="/"><i class="fa-solid fa-house"></i><span>웹페이지</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="sidebar__footer">
+                        <div class="social-links">
+                            <a href="#"><i class="fa-brands fa-discord"></i></a>
+                            <a href="#"><i class="fa-brands fa-github"></i></a>
+                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="main-content">
+                <header class="main-header">
+                    <div class="header-left">
+                        <button id="sidebar-toggle" class="sidebar-toggle">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="header-right">
+                        <button id="theme-toggle" class="theme-toggle">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                        <div class="theme-toggle">
+                            <a
+                                href="#"
+                                class="wallet-connect"
+                                data-modal-type="iframe"
+                                data-url="/office"
+                                data-title="오피스 보기"
+                                data-size="xl"
+                                style="display: inline-block; text-decoration: none; color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer">
+                                <i class="fa-solid fa-network-wired"></i>
+                            </a>
+
+                        </div>
+                        <div class="theme-toggle">
+                            <a
+                                href="/member/logout"
+                                class="wallet-connect"
+                                style="display: inline-block; text-decoration: none; color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </a>
+                        </div>
+                    </div>
+                </header>
+            <? } ?>
+            <main class="content-wrapper">
+                <?= $this->slot('content') ?>
+            </main>
+            <? if (!isset($no_layout) || !$no_layout) { ?>
+                <footer class="main-footer">
+                    <div class="copyright">
+                        <p>
+                            &copy;2025
+                            <?= SITE_NAME ?>
+                            | 사용 권리 보유
+                        </p>
+                    </div>
+                    <div class="verifications">
+                        <span><i class="fa-solid fa-check-circle"></i> AI 모니터링</span>
+                    </div>
+                </footer>
+
+            </div>
+        <? } ?>
+        </div>
+        <?= load_asset('js/main.js') ?>
+        <?= load_asset('js/table.js') ?>
+        <?= load_asset('js/modal.js') ?>
+        <?= load_asset('js/auto') ?>
+</body>
+
+</html>

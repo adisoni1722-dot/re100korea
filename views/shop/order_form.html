@@ -1,0 +1,132 @@
+<div class="order-page-container">
+
+    <section class="order-section">
+        <h2 class="section-title font-t-sm">주문자 정보</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="ordererName">이름</label>
+                <input type="text" id="ordererName" name="ordererName" class="form-input" value="홍길동" required>
+            </div>
+            <div class="form-group">
+                <label for="ordererPhone">연락처</label>
+                <input type="tel" id="ordererPhone" name="ordererPhone" class="form-input" value="010-1234-5678" required>
+            </div>
+            <div class="form-group full-width">
+                <label for="ordererEmail">이메일</label>
+                <input type="email" id="ordererEmail" name="ordererEmail" class="form-input" value="hong@example.com" required>
+            </div>
+        </div>
+    </section>
+
+    <section class="order-section">
+        <div class="section-header">
+            <h2 class="section-title font-t-sm">배송지 정보</h2>
+            <div class="checkbox-group">
+                <input type="checkbox" id="sameAsOrderer">
+                <label for="sameAsOrderer">주문자 정보와 동일</label>
+            </div>
+        </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="recipientName">받는 사람</label>
+                <input type="text" id="recipientName" name="recipientName" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="recipientPhone">연락처</label>
+                <input type="tel" id="recipientPhone" name="recipientPhone" class="form-input" required>
+            </div>
+            <div class="form-group address-group">
+                <label for="recipientPostcode">우편번호</label>
+                <div class="input-with-button">
+                    <input type="text" id="recipientPostcode" name="recipientPostcode" class="form-input" readonly>
+                    <button type="button" class="btn btn--secondary">주소 찾기</button>
+                </div>
+            </div>
+            <div class="form-group full-width">
+                <label for="recipientAddr1">기본주소</label>
+                <input type="text" id="recipientAddr1" name="recipientAddr1" class="form-input" readonly>
+            </div>
+            <div class="form-group full-width">
+                <label for="recipientAddr2">상세주소</label>
+                <input type="text" id="recipientAddr2" name="recipientAddr2" class="form-input">
+            </div>
+             <div class="form-group full-width">
+                <label for="shippingMemo">배송 메모</label>
+                <select id="shippingMemo" name="shippingMemo" class="form-input">
+                    <option value="">배송 메모를 선택해주세요</option>
+                    <option value="문 앞에 놓아주세요.">문 앞에 놓아주세요.</option>
+                    <option value="경비실에 맡겨주세요.">경비실에 맡겨주세요.</option>
+                    <option value="배송 전 연락주세요.">배송 전 연락주세요.</option>
+                </select>
+            </div>
+        </div>
+    </section>
+    
+    <section class="order-section">
+        <h2 class="section-title font-t-sm">주문 상품 정보</h2>
+        <div class="order-product-list">
+            <div class="product-item">
+                <div class="product-info">
+                    <img src="https://via.placeholder.com/100" alt="상품 이미지" class="product-image">
+                    <div class="product-details">
+                        <p class="product-name">프리미엄 저소음 무선 마우스</p>
+                        <p class="product-option">색상: 화이트</p>
+                    </div>
+                </div>
+                <div class="product-quantity">1개</div>
+                <div class="product-price">35,000원</div>
+            </div>
+            <div class="product-item">
+                <div class="product-info">
+                    <img src="https://via.placeholder.com/100" alt="상품 이미지" class="product-image">
+                    <div class="product-details">
+                        <p class="product-name">기계식 게이밍 키보드 (청축)</p>
+                        <p class="product-option">옵션: 한글 각인</p>
+                    </div>
+                </div>
+                <div class="product-quantity">1개</div>
+                <div class="product-price">112,000원</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="payment-container">
+        <div class="payment-summary">
+             <h2 class="section-title font-t-sm">최종 결제 금액</h2>
+             <div class="summary-box">
+                <dl class="summary-item">
+                    <dt>총 상품금액</dt>
+                    <dd>147,000원</dd>
+                </dl>
+                 <dl class="summary-item">
+                    <dt>배송비</dt>
+                    <dd>3,000원</dd>
+                </dl>
+                 <dl class="summary-item total">
+                    <dt>총 결제금액</dt>
+                    <dd class="total-price">150,000원</dd>
+                </dl>
+             </div>
+        </div>
+
+        <div class="payment-method">
+            <h2 class="section-title font-t-sm">결제 수단</h2>
+            <div class="method-options">
+                <button type="button" class="method-btn --is-active">신용카드</button>
+                <button type="button" class="method-btn">가상계좌</button>
+                <button type="button" class="method-btn">휴대폰결제</button>
+                <button type="button" class="method-btn">네이버페이</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="payment-actions">
+        <div class="terms-agreement">
+            <input type="checkbox" id="agreeTerms" name="agreeTerms">
+            <label for="agreeTerms">주문할 상품의 상품명, 상품가격, 배송정보를 확인하였으며, 구매에 동의합니다.</label>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">150,000원 결제하기</button>
+    </div>
+
+</div>

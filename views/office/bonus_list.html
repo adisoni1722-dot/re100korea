@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이오피스 - <?= $header['title'] ?? '' ?></title>
+    <?= load_asset('css/common.min.css') ?>
+</head>
+
+<body>
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+            font-family: inherit;
+        }
+
+        input {
+            font-family: inherit;
+        }
+
+        .point-history-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .close-btn {
+            background-color: transparent;
+            color: #555;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .search-area {
+            margin-bottom: 16px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 48px;
+            padding: 0 15px 0 50px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background-color: #eef0f3;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: #888;
+            pointer-events: none;
+        }
+
+        .balance-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 0;
+        }
+
+        .current-balance-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .balance-label {
+            font-size: 16px;
+            color: #555;
+            font-weight: 500;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .current-balance {
+            font-size: 24px;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .unit {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-left: 4px;
+        }
+
+        .member-id-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .member-id-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .member-id-label {
+            font-size: 16px;
+            color: #555;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .member-id {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .member-name-info {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .member-name-label {
+            font-size: 16px;
+            color: #555;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .member-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .line-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .line-info .line-left,
+        .line-info .line-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .line-info span:first-child {
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .line-info span:last-child {
+            font-weight: 700;
+            color: #000;
+        }
+
+        .wallet-switch-btn {
+            background-color: #000;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .point-tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .tab-item {
+            padding: 10px 16px;
+            font-size: 17px;
+            color: #888;
+            font-weight: 500;
+            margin-bottom: -2px;
+        }
+
+        .tab-item.active {
+            color: #000;
+            font-weight: bold;
+            border-bottom: 2px solid #000;
+        }
+
+        .point-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .point-item:last-child {
+            border-bottom: none;
+        }
+
+        .date-area {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .date-area .date {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .date-area .time {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .detail-area {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .detail-area .description {
+            margin: 0 0 4px 0;
+            font-size: 17px;
+            font-weight: 500;
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        .detail-area .type {
+            margin: 0;
+            font-size: 15px;
+            color: #888;
+        }
+
+        .amount-area {
+            display: flex;
+            align-items: center;
+            margin-left: 16px;
+            flex-shrink: 0;
+        }
+
+        .amount-area .points {
+            font-size: 18px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .amount-area .points.plus {
+            color: #2db400;
+        }
+
+        .amount-area .points.minus {
+            color: #e53935;
+        }
+
+        @media (max-width: 600px) {
+            .point-history-container {
+                padding: 12px;
+            }
+
+            .page-header {
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+            }
+
+            .page-title {
+                font-size: 18px;
+            }
+
+            .balance-info {
+                padding: 10px 0;
+                margin-bottom: 0;
+            }
+
+            .current-balance {
+                font-size: 20px;
+            }
+
+            .unit {
+                font-size: 16px;
+            }
+
+            .member-id-label {
+                font-size: 15px;
+            }
+
+            .member-id {
+                font-size: 18px;
+            }
+
+            .member-name-label {
+                font-size: 15px;
+            }
+
+            .member-name {
+                font-size: 18px;
+            }
+
+            .line-info {
+                padding: 10px 0 15px 0;
+                margin-bottom: 15px;
+                font-size: 15px;
+            }
+
+
+            .point-tabs {
+                margin-bottom: 15px;
+            }
+
+            .tab-item {
+                padding: 10px 8px;
+                font-size: 16px;
+            }
+
+            .point-item {
+                padding: 12px 0;
+                align-items: flex-start;
+            }
+
+            .date-area {
+                margin-right: 12px;
+            }
+
+            .detail-area .description {
+                font-size: 16px;
+            }
+
+            .detail-area .type {
+                font-size: 14px;
+            }
+
+            .amount-area {
+                margin-left: 12px;
+            }
+
+            .amount-area .points {
+                font-size: 17px;
+            }
+        }
+    </style>
+    <div class="unit">
+        <div class="point-history-container">
+            <div class="search-area">
+                <div class="search-input-wrapper">
+                    <svg
+                        class="search-icon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" class="search-input" placeholder="내역 검색" />
+                </div>
+            </div>
+
+            <div class="balance-info">
+                <div class="member-id-wrapper">
+                    <div class="member-name-info">
+                        <span class="member-name-label">성명</span>
+                        <span class="member-name"> <?= $mlm['name'] ?> [<?=$mlm['mlm_id']?>]</span>
+                    </div>
+                </div>
+
+                <div class="current-balance-wrapper">
+                    <span class="balance-label">누적</span>
+                    <span class="current-balance"><?= number_format($bonus['total_all'], 0) ?></span><span class="unit">P</span>
+                </div>
+            </div>
+
+            <div class="line-info">
+                <div class="line-left">
+                    <span>좌측:</span>
+                    <span><?=$summary['L']['count']?>명</span>
+                </div>
+                <div class="line-right">
+                    <span>우측:</span>
+                    <span><?= $summary['R']['count']?>명</span>
+                </div>
+            </div>
+
+            <ul class="point-list">
+                <? foreach ($bonus['list'] as $row): ?>
+                    <li class="point-item">
+                        <? $formatted = format_datetime($row['created_at']); ?>
+                        <div class="date-area">
+                            <span class="date"><?= $formatted['date'] ?></span>
+                            <span class="time"><?= $formatted['time'] ?></span>
+                        </div>
+                        <div class="detail-area">
+                            <p class="description"><?= $row['message'] ?></p>
+                            <p class="type">
+                                트리거 :
+                                <?= $row['account_holder'] ?>
+                            </p>
+                        </div>
+                        <div class="amount-area">
+                            <span class="points <?= $row['display_sign'] ?>"><?= $row['display_amount'] ?>
+                                P</span>
+                        </div>
+                    </li>
+
+                <? endforeach; ?>
+            </ul>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.querySelector('.search-input');
+            const tabs = document.querySelectorAll('.tab-item');
+            const pointList = document.querySelector('.point-list');
+
+            function getPointItems() {
+                return pointList.querySelectorAll('.point-item');
+            }
+
+            let currentFilter = 'all';
+
+            function filterItems() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const pointItems = getPointItems();
+
+                pointItems.forEach((item) => {
+                    const description = item.querySelector('.description').textContent.toLowerCase();
+                    const isPlus = item.querySelector('.points.plus');
+                    const isMinus = item.querySelector('.points.minus');
+
+                    let tabMatch = false;
+                    if (currentFilter === 'all') {
+                        tabMatch = true;
+                    } else if (currentFilter === 'plus' && isPlus) {
+                        tabMatch = true;
+                    } else if (currentFilter === 'minus' && isMinus) {
+                        tabMatch = true;
+                    }
+
+                    const searchMatch = description.includes(searchTerm);
+
+                    if (tabMatch && searchMatch) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach((t) => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.dataset.filter;
+                    filterItems();
+                });
+            });
+
+            searchInput.addEventListener('input', filterItems);
+
+            filterItems();
+        });
+    </script>
+</body>
+
+</html>
